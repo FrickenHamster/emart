@@ -38,8 +38,8 @@ public class Main
 	{
 		Connection connection = DriverManager.getConnection(hostAddress, user, pass);
 		
-		Statement stmt = connection.createStatement();
-		
+		while (true)
+			System.out.println("every day go to school to be the good boy");
 	}
 	
 }
