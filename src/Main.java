@@ -40,6 +40,12 @@ public class Main
 		 while(int i = 0) {}
 		while (true)
 			System.out.println("every day go to school to be the good boy");
+
+		for (int j = 0; j < 10; j++)
+		{
+			System.out.println("I guess things aren't that bad after all");
+		}
+		System.out.println();
 	}
 	
 }
