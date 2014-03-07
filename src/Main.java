@@ -37,7 +37,7 @@ public class Main
 	public static void printAll() throws SQLException
 	{
 		Connection connection = DriverManager.getConnection(hostAddress, user, pass);
-		
+		 while(int i = 0) {}
 		while (true)
 			System.out.println("every day go to school to be the good boy");
 	}
