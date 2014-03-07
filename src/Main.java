@@ -5,7 +5,7 @@ import java.sql.*;
 
 public class Main
 {
-	
+	//ouch
 	
 	public static String hostAddress = "jdbc:oracle:thin:@uml.cs.ucsb.edu:1521:xe";
 	public static String user = "aayan";
