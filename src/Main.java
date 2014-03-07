@@ -7,6 +7,12 @@ public class Main
 {
 	//ouch
 	
+	/*hi uncle same do you like to do the dancing?
+	I like to do the dancing but I have to go to school first
+	ooooooooooooooooohhhhhhhh
+	 */
+	
+	
 	public static String hostAddress = "jdbc:oracle:thin:@uml.cs.ucsb.edu:1521:xe";
 	public static String user = "aayan";
 	public static String pass = "5608120";
