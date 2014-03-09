@@ -14,18 +14,30 @@ public class Main
 	
 	public static void main(String[] args) throws SQLException
 	{
+		EMartTableGenesis tableGen;
 		try
 		{
 			DriverManager.registerDriver(new OracleDriver());
 			
 			connectEMart();
-			new EMartTableGenesis(EMART_CONNECTION);
+			
 			
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
+		if (args.length > 0 && args[0].equals( "clear"))
+		{
+			tableGen = new EMartTableGenesis(EMART_CONNECTION);
+			tableGen.clearTables();
+		}
+		else
+		{
+			tableGen = new EMartTableGenesis(EMART_CONNECTION);
+			tableGen.createTables();
+		}
+
 	}
 	
 	public static void connectEMart()
