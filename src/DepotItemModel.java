@@ -1,7 +1,7 @@
 /**
  * Created by jessie on 3/8/14.
  */
-public class DepotItem
+public class DepotItemModel
 {
 	private String stockNumber;
 	private int quantity;
@@ -12,11 +12,11 @@ public class DepotItem
 	private String mName;
 	private String mNumber;
 	
-	public DepotItem()
+	public DepotItemModel()
 	{
 		
 	}
-	public DepotItem(String stockNumber)
+	public DepotItemModel(String stockNumber)
 	{
 		
 	}
