@@ -1,3 +1,7 @@
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Fricken Hamster
@@ -6,14 +10,34 @@
  */
 public class DiscountModel
 {
-	
-	private String name;
-	private String percent;
+	Connection connection;
 	
 	
-	
-	public DiscountModel()
-	{
+	private String status;
+	private double percent;
 
+	public DiscountModel(Connection connection)
+	{
+		this.connection = connection;
+	}
+
+	public void setAll(String status, double percent)
+	{
+		this.status = status;
+		this.percent = percent;
+	}
+	
+	public void insert()
+	{
+		
+		try
+		{
+			Statement statement = connection.createStatement();
+			statement.executeUpdate("insert into discount " +
+					"values(" + "'" + status + "'" + "," + percent + ")");
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
 	}
 }
