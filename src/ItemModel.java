@@ -11,6 +11,8 @@ public class ItemModel
 	private String category;
 	private double price;
 	private int warranty;
+	private String mName;
+	private String mNumber;
 	
 	public ItemModel()
 	{
