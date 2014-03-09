@@ -4,7 +4,7 @@
  * Date: 3/3/14
  * Time: 11:31 AM
   */
-public class ItemModel
+public class MartItemModel
 {
 	
 	private int stockNumber;
@@ -14,7 +14,7 @@ public class ItemModel
 	private String mName;
 	private String mNumber;
 	
-	public ItemModel()
+	public MartItemModel()
 	{
 		
 	}

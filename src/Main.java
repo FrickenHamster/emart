@@ -31,6 +31,7 @@ public class Main
 		{
 			tableGen = new EMartTableGenesis(EMART_CONNECTION);
 			tableGen.clearTables();
+			EMART_CONNECTION.close();
 		}
 		else
 		{
