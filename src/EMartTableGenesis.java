@@ -197,8 +197,6 @@ public class EMartTableGenesis
 		discountModel.insert();
 		discountModel.setAll("Green", 0);
 		discountModel.insert();
-		discountModel.setAll("Silver", 5);
-		discountModel.insert();
 		CustomerModel model = new CustomerModel(connection);
 		model.setAll("Rhagrid", "Rhagrid", "Rubeus Hagrid", "rhagrid@cs", "123 MyStreet, Goleta apt A, Ca", "Gold", "FALSE");
 		model.insert();
