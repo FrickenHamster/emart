@@ -10,7 +10,7 @@ public class Main
 	public static String user = "aayan";
 	public static String pass = "5608120";
 	public static Connection EMART_CONNECTION;
-	public static Connection EDEPOT_CONNECTION;
+	
 	
 	
 	public static void main(String[] args) throws SQLException
@@ -22,7 +22,6 @@ public class Main
 			DriverManager.registerDriver(new OracleDriver());
 			
 			connectEMart();
-			connectEDepot();
 			
 		}
 		catch (Exception e)
@@ -33,10 +32,10 @@ public class Main
 		{
 			tableGen = new EMartTableGenesis(EMART_CONNECTION);
 			tableGen.clearTables();
-			depotGen = new EDepotTableGen(EDEPOT_CONNECTION);
+			depotGen = new EDepotTableGen(EMART_CONNECTION);
 			depotGen.clearTables();
 			EMART_CONNECTION.close();
-			EDEPOT_CONNECTION.close();
+		
 		}
 		else
 		{
@@ -60,16 +59,7 @@ public class Main
 			e.printStackTrace();
 		}
 	}
-	public static void connectEDepot()
-	{
-		try
-		{
-			EDEPOT_CONNECTION = DriverManager.getConnection(hostAddress, user, pass);
-		} catch (SQLException e)
-		{
-			e.printStackTrace();
-		}
-	}
+
 	
 	public static void printAll() throws SQLException
 	{
