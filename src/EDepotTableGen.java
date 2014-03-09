@@ -39,9 +39,9 @@ public class EDepotTableGen
 	
 	{
 		String createString = "create table ShippingNotice" +
-				"shipid integer," +
+				"ship_id integer," +
 				"company_name char(20)" +
-				"primary key (shipid))";
+				"primary key (ship_id))";
 		try
 		{
 			Statement statement = connection.createStatement();
@@ -57,11 +57,36 @@ public class EDepotTableGen
 		
 		}
 	}
+
+	{
+		String createString = "create table ShippingListed" +
+				"ship_id integer," +
+				"stock_number char(20)," +
+				"amount integer not null," +
+				"primary key (ship_id, stock_number)," +
+				"foreign key (ship_id) references ShippingNotice (ship_id)," +
+				"foreign key (stock_number) references Items (stock_number)";
+		try
+		{
+			Statement statement = connection.createStatement();
+			statement.execute(createString);
+		} catch (SQLException e)
+		{
+			if(e.getMessage().startsWith("ORA-00955: name is already used by an existing object"))
+			{
+				System.out.println("table ShippingListed already exists");
+			}
+			else
+				e.printStackTrace();
+
+		}
+	}
+	
 	{
 		String createString = "create table ReplenishmentOrder(" +
-				"orderid integer," +
+				"order_id integer," +
 				"mname char(20)" +
-				"primary key (orderid)," +
+				"primary key (order_id)," +
 				"foreign key (mname) references DepotItem (mname)";
 		try
 		{
@@ -78,5 +103,27 @@ public class EDepotTableGen
 				e.printStackTrace();
 		}
 	}
-	
+	{
+		String createString = "create table InReplenishmentOrder(" +
+				"order_id integer," +
+				"stock_number char(20)" +
+				"amount integer not null" +
+				"primary key (order_id, stock_number)," +
+				"foreign key (order_id) references DepotItem (order_id)" +
+				"foreign key (stock_number) references Items (stock_number))";
+		try
+		{
+			Statement statement = connection.createStatement();
+			statement.execute(createString);
+		}
+		catch(SQLException e)
+		{
+			if(e.getMessage().startsWith("ORA-00955: name is already used by an existing object"))
+			{
+				System.out.println("table InReplenishmentOrder already exists");
+			}
+			else
+				e.printStackTrace();
+		}
+	}
 }
