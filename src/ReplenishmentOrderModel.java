@@ -3,36 +3,36 @@
  */
 public class ReplenishmentOrderModel
 {
-	private int shipID;
-	private String companyName;
+	private int orderid;
+	private String mname;
 	
 	public ReplenishmentOrderModel()
 	{
 		
 	}
 	
-	public ReplenishmentOrderModel(int shipID)
+	public ReplenishmentOrderModel(int orderid)
 	{
 		
 	}
 
-	public int getShipID()
+	public int getOrderid()
 	{
-		return shipID;
+		return orderid;
 	}
 
-	public void setShipID(int shipID)
+	public void setOrderid(int orderid)
 	{
-		this.shipID = shipID;
+		this.orderid = orderid;
 	}
 
-	public String getCompanyName()
+	public String getMname()
 	{
-		return companyName;
+		return mname;
 	}
 
-	public void setCompanyName(String companyName)
+	public void setMname(String mname)
 	{
-		this.companyName = companyName;
+		this.mname = mname;
 	}
 }
