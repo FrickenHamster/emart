@@ -10,7 +10,7 @@ public class DepotItemModel
 	private int replenish;
 	private String location;
 	private String mName;
-	private String mNumber;
+	private String modelNumber;
 	
 	public DepotItemModel()
 	{
@@ -91,13 +91,13 @@ public class DepotItemModel
 		this.mName = mName;
 	}
 
-	public String getmNumber()
+	public String getmodelNumber()
 	{
-		return mNumber;
+		return modelNumber;
 	}
 
-	public void setmNumber(String mNumber)
+	public void setmodelNumber(String modelNumber)
 	{
-		this.mNumber = mNumber;
+		this.modelNumber = modelNumber;
 	}
 }
