@@ -19,7 +19,7 @@ public class Main
 			DriverManager.registerDriver(new OracleDriver());
 			
 			connectEMart();
-			new eMartTableGenesis(EMART_CONNECTION);
+			new EMartTableGenesis(EMART_CONNECTION);
 			
 		}
 		catch (Exception e)
