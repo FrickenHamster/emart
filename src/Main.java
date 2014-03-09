@@ -37,6 +37,7 @@ public class Main
 		{
 			tableGen = new EMartTableGenesis(EMART_CONNECTION);
 			tableGen.createTables();
+			tableGen.seedValues();
 		}
 
 	}
