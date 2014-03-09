@@ -35,7 +35,7 @@ public class EMartTableGenesis
 			{
 				if (e.getMessage().startsWith("ORA-00955: name is already used by an existing object"))
 				{
-					System.out.println("table sales already exists");
+					System.out.println("table martitem already exists");
 				}
 				else
 					e.printStackTrace();
@@ -55,7 +55,7 @@ public class EMartTableGenesis
 			{
 				if (e.getMessage().startsWith("ORA-00955: name is already used by an existing object"))
 				{
-					System.out.println("table sales already exists");
+					System.out.println("table Description already exists");
 				}
 				else
 					e.printStackTrace();
@@ -74,7 +74,7 @@ public class EMartTableGenesis
 			{
 				if (e.getMessage().startsWith("ORA-00955: name is already used by an existing object"))
 				{
-					System.out.println("table sales already exists");
+					System.out.println("table Accessory already exists");
 				}
 				else
 					e.printStackTrace();
@@ -93,7 +93,7 @@ public class EMartTableGenesis
 			{
 				if (e.getMessage().startsWith("ORA-00955: name is already used by an existing object"))
 				{
-					System.out.println("table sales already exists");
+					System.out.println("table Discount already exists");
 				}
 				else
 					e.printStackTrace();
