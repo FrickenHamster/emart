@@ -93,7 +93,7 @@ public class MartItemModel
 				ResultSet accrs = accStmt.executeQuery();
 				while(accrs.next())
 				{
-					System.out.println(accrs.getString(2));
+					System.out.println(accrs.getString("child_stock_number"));
 				}
 			}
 			

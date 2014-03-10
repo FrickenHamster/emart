@@ -1,34 +1,45 @@
+import java.sql.*;
+
 /**
- * Created by jessie on 3/6/14.
+ * Created with IntelliJ IDEA.
+ * User: Fricken Hamster
+ * Date: 3/7/14
+ * Time: 4:48 PM
  */
 public class AccessoryModel
 {
+	private Connection connection;
+	
+	private String parentItem;
+	private String accessoryItem;
 
-	private int modelNumber;
-	private String mName;
 
-	public String getmName()
+	public AccessoryModel(Connection connection)
 	{
-		return mName;
+		this.connection = connection;
 	}
 
-	public void setmName(String mName)
+	public void setAll(String parentItem, String accessoryItem)
 	{
-		this.mName = mName;
+		this.parentItem = parentItem;
+		this.accessoryItem = accessoryItem;
 	}
 
-	public int getModelNumber()
-	{
-		return modelNumber;
-	}
 
-	public void setModelNumber(int modelNumber)
+	public void insert()
 	{
-		this.modelNumber = modelNumber;
+		try
+		{
+			String insertString = "insert into accessory values(?, ?)";
+			PreparedStatement insStmt = connection.prepareStatement(insertString);
+			insStmt.setString(1, parentItem);
+			insStmt.setString(2, accessoryItem);
+			insStmt.executeUpdate();
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
 	}
-
-	public AccessoryModel(int modelNumber)
-	{
-		this.modelNumber = modelNumber;
-	}
+	
+	
 }
