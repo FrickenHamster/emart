@@ -70,7 +70,7 @@ public class EMartTableGenesis
 					"child_stock_number char(7)," +
 					"primary key (parent_stock_number, child_stock_number)," +
 					"foreign key (parent_stock_number) references martitem(stock_number)," +
-					"foreign key (parent_stock_number) references martitem(stock_number))";
+					"foreign key (child_stock_number) references martitem(stock_number))";
 			try
 			{
 				Statement statement = connection.createStatement();
@@ -132,7 +132,7 @@ public class EMartTableGenesis
 		{
 			String createString = "create table CartItem(" +
 					"cid char(20)," +
-					"stock_number char(20)," +
+					"stock_number char(7)," +
 					"amount integer not null," +
 					"primary key (cid, stock_number)," +
 					"foreign key (cid) references customer(cid) on delete cascade," +
@@ -197,6 +197,7 @@ public class EMartTableGenesis
 	{
 		DiscountModel discountModel = new DiscountModel(connection);
 		AccessoryModel accessoryModel = new AccessoryModel(connection);
+		CartItemModel cartItemModel = new CartItemModel(connection);
 		discountModel.setAll("Gold", 10);
 		discountModel.insert();
 		discountModel.setAll("Silver", 5);
@@ -226,6 +227,10 @@ public class EMartTableGenesis
 		descriptionModel.setAll("AA00301", "Weight", "25 lb");
 		accessoryModel.setAll("AA00301", "AA00101");
 		accessoryModel.insert();
+		
+		cartItemModel.setAll("Rhagrid", "AA00101", 3);
+		cartItemModel.insert();
+		
 	}
 	
 	public void clearTables()
