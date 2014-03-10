@@ -87,7 +87,16 @@ public class MartItemModel
 				{
 					System.out.println(desrs.getString("attribute") + ": " + desrs.getString("attribute_value"));
 				}
+				System.out.println("accessory to:");
+				PreparedStatement accStmt = Main.EMART_CONNECTION.prepareStatement("select child_stock_number from accessory where parent_stock_number = ?");
+				accStmt.setString(1, rs.getString("stock_number"));
+				ResultSet accrs = accStmt.executeQuery();
+				while(accrs.next())
+				{
+					System.out.println(accrs.getString(2));
+				}
 			}
+			
 		} catch (SQLException e)
 		{
 			e.printStackTrace();

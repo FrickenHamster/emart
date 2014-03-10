@@ -49,7 +49,7 @@ public class EMartTableGenesis
 					"attribute char(20)," +
 					"attribute_value char(20) not null," +
 					"primary key (stock_number, attribute)," +
-					"foreign key (stock_number) references martitem(stock_number))";
+					"foreign key (stock_number) references martitem(stock_number) on delete cascade)";
 			try
 			{
 				Statement statement = connection.createStatement();
@@ -68,7 +68,9 @@ public class EMartTableGenesis
 			String createString = "create table Accessory(" +
 					"parent_stock_number char(7)," +
 					"child_stock_number char(7)," +
-					"primary key (parent_stock_number, child_stock_number))";
+					"primary key (parent_stock_number, child_stock_number)," +
+					"foreign key (parent_stock_number) references martitem(stock_number)," +
+					"foreign key (parent_stock_number) references martitem(stock_number))";
 			try
 			{
 				Statement statement = connection.createStatement();
