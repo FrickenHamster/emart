@@ -26,6 +26,8 @@ public class EMartTableGenesis
 					"warranty integer not null," +
 					"price real not null," +
 					"category char(20)," +
+					"manufacturer char(20)," +
+					"model_number char(20)," +
 					"primary key (stock_number))";
 			try
 			{
@@ -46,7 +48,8 @@ public class EMartTableGenesis
 					"stock_number char(7)," +
 					"attribute char(20)," +
 					"attribute_value char(20) not null," +
-					"primary key (stock_number, attribute))";
+					"primary key (stock_number, attribute)," +
+					"foreign key (stock_number) references martitem(stock_number))";
 			try
 			{
 				Statement statement = connection.createStatement();
@@ -200,18 +203,30 @@ public class EMartTableGenesis
 		CustomerModel model = new CustomerModel(connection);
 		model.setAll("Rhagrid", "Rhagrid", "Rubeus Hagrid", "rhagrid@cs", "123 MyStreet, Goleta apt A, Ca", "Gold", "FALSE");
 		model.insert();
-		
+		MartItemModel itemModel = new MartItemModel(connection);
+		itemModel.setAll("SA10188", "Laptop", 1630, 12, "HP", "6111");
+		itemModel.insert();
+		DescriptionModel descriptionModel = new DescriptionModel(connection);
+		descriptionModel.setAll("SA10188", "Processor speed", "3.33Ghz");
+		descriptionModel.insert();
+		descriptionModel.setAll("SA10188", "Ram size", "512 Mb");
+		descriptionModel.insert();
+		descriptionModel.setAll("SA10188", "Hard disk size", "100Gb");
+		descriptionModel.insert();
+		descriptionModel.setAll("SA10188", "Display Size", "17\"");
+		descriptionModel.insert();
 	}
 	
 	public void clearTables()
 	{
 		// When clearing tables, make sure you remove the ones with the foreign constraints first
 		dropTable("accessory");
+		dropTable("description");
 		dropTable("cartitem");
 		dropTable("ordereditem");
 		dropTable("customer");
 		dropTable("martitem");
-		dropTable("description");
+		
 		
 		dropTable("discount");
 		dropTable("sales");

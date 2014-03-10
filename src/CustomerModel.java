@@ -1,7 +1,4 @@
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -84,5 +81,24 @@ public class CustomerModel
 		}
 	}
 	
+	
+	public static void printAll()
+	{
+		try
+		{
+			PreparedStatement stmt = Main.EMART_CONNECTION.prepareStatement("select * " +
+					"from customer");
+			ResultSet rs = stmt.executeQuery();
+			System.out.println("Customers:");
+			while (rs.next())
+			{
+				System.out.println("in rs");
+				System.out.println(rs.getString("cid") + " | " + rs.getString("password") + " | " + rs.getString("customer_name") + " | " + rs.getString("email") + " | " + rs.getString("address") + " | " + rs.getString("status") + " | " + rs.getString("is_manager"));
+			}
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+	}
 	
 }

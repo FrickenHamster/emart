@@ -37,6 +37,18 @@ public class Main
 			EMART_CONNECTION.close();
 		
 		}
+		else if(args.length > 0 && args[0].equals( "test"))
+		{
+			tableGen = new EMartTableGenesis(EMART_CONNECTION);
+			tableGen.clearTables();
+			depotGen = new EDepotTableGen(EMART_CONNECTION);
+			depotGen.clearTables();
+			tableGen.createTables();
+			depotGen.createTables();
+			tableGen.seedValues();
+			MartItemModel.printAll();
+			CustomerModel.printAll();
+		}
 		else
 		{
 			tableGen = new EMartTableGenesis(EMART_CONNECTION);
@@ -44,6 +56,8 @@ public class Main
 			depotGen = new EDepotTableGen(EMART_CONNECTION);
 			depotGen.createTables();
 			tableGen.seedValues();
+			MartItemModel.printAll();
+			CustomerModel.printAll();
 		}
 
 	}

@@ -1,6 +1,4 @@
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,27 +10,26 @@ public class MartItemModel
 {
 	private Connection connection;
 	
-	private int stockNumber;
+	private String stockNumber;
 	private String category;
 	private double price;
 	private int warranty;
-	private String mName;
-	private String mNumber;
+	private String manufacturer;
+	private String modelNumber;
 
 	public MartItemModel(Connection connection)
 	{
 		this.connection = connection;
 	}
 
-	public MartItemModel(Connection connection, int stockNumber, String category, double price, int warranty, String mName, String mNumber)
+	public void setAll(String stockNumber, String category, double price, int warranty, String manufacturer, String modelNumber)
 	{
-		this.connection = connection;
 		this.stockNumber = stockNumber;
 		this.category = category;
 		this.price = price;
 		this.warranty = warranty;
-		this.mName = mName;
-		this.mNumber = mNumber;
+		this.manufacturer = manufacturer;
+		this.modelNumber = modelNumber;
 	}
 	
 	
@@ -40,9 +37,21 @@ public class MartItemModel
 	{
 		try
 		{
-			Statement statement = connection.createStatement();
-			statement.executeUpdate("insert into martitem " +
-					"values(" + "'" + stockNumber + "'" + "," + warranty + "," + price + "," + "'" + category + "'" + ")");
+			String insertString = "insert into martitem values(?, ?, ?, ?, ?, ?)";
+			PreparedStatement insStmt = connection.prepareStatement(insertString);
+			/*statement.executeUpdate("insert into martitem " +
+					"values(" + "'" + stockNumber + "'" + "," + warranty + "," + price + "," + "'" + category + "'" + "'" + manufacturer + "','" + modelNumber + "')");*/
+			insStmt.setString(1,  stockNumber );
+			insStmt.setInt(2, warranty);
+			insStmt.setDouble(3, price);
+			insStmt.setString(4, category);
+			insStmt.setString(5, manufacturer);
+			insStmt.setString(6, modelNumber);
+			//String insertString = "insert into martitem values(?, ?, ?, ?, ?, ?)";
+			//Statement insStmt = connection.createStatement();
+			
+			insStmt.executeUpdate();//"insert into martitem values('sfe', 3, 43, 'afse', 'afewa', 'sdfe')");
+			//System.out.println(insStmt.);
 		} catch (SQLException e)
 		{
 			e.printStackTrace();
@@ -57,5 +66,32 @@ public class MartItemModel
 	public void setCategory(String category)
 	{
 		this.category = category;
+	}
+	
+	public static void printAll()
+	{
+		try
+		{
+			PreparedStatement stmt = Main.EMART_CONNECTION.prepareStatement("select * " +
+					"from martitem");
+			ResultSet rs = stmt.executeQuery();
+			System.out.println("Mart Items:");
+			while (rs.next())
+			{
+				System.out.println(rs.getString("stock_number") + " | " + rs.getInt("warranty") + " | " + rs.getDouble("price") + " | " + rs.getString("category") + " | " + rs.getString("manufacturer") + " | " + rs.getString("model_number"));
+				System.out.println("descriptions:");
+				PreparedStatement desstmt = Main.EMART_CONNECTION.prepareStatement("select attribute, attribute_value from description where stock_number = ?");
+				desstmt.setString(1, rs.getString("stock_number"));
+				ResultSet desrs = desstmt.executeQuery();
+				while(desrs.next())
+				{
+					System.out.println(desrs.getString("attribute") + ": " + desrs.getString("attribute_value"));
+				}
+			}
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		
 	}
 }
