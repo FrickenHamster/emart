@@ -117,5 +117,9 @@ public class CustomerModel
 			e.printStackTrace();
 		}
 	}
-	
+
+	public String getCustomerIdentifier()
+	{
+		return customerIdentifier;
+	}
 }

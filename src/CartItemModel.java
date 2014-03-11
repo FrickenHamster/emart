@@ -1,5 +1,6 @@
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -49,4 +50,51 @@ public class CartItemModel
 		}
 	}
 	
+	public void update()
+	{
+		try
+		{
+			String updateString = "update cartitem set cid = ?, stock_number = ?, amount = ? where cid = ?";
+			PreparedStatement stmt = connection.prepareStatement(updateString);
+			stmt.setString(1, customerIdentifier);
+			stmt.setString(2, stockNumber);
+			stmt.setInt(3, amount);
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	public boolean load(String customerIdentifier, String stockNumber)
+	{
+		try
+		{
+			PreparedStatement stmt = connection.prepareStatement("select * from cartitem where cid = ? and stock_number = ?");
+			stmt.setString(1, customerIdentifier);
+			stmt.setString(2, stockNumber);
+			ResultSet rs = stmt.executeQuery();
+			if (!rs.next())
+			{
+				return false;
+			}
+			this.customerIdentifier = rs.getString("cid");
+			this.stockNumber = rs.getString("stock_number");
+			this.amount = rs.getInt("amount");
+			return true;
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public void setAmount(int amount)
+	{
+		this.amount = amount;
+	}
+
+	public int getAmount()
+	{
+		return amount;
+	}
 }
