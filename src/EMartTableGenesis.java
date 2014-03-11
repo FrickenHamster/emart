@@ -70,7 +70,7 @@ public class EMartTableGenesis
 					"child_stock_number char(7)," +
 					"primary key (parent_stock_number, child_stock_number)," +
 					"foreign key (parent_stock_number) references martitem(stock_number)," +
-					"foreign key (parent_stock_number) references martitem(stock_number))";
+					"foreign key (child_stock_number) references martitem(stock_number))";
 			try
 			{
 				Statement statement = connection.createStatement();
@@ -132,11 +132,11 @@ public class EMartTableGenesis
 		{
 			String createString = "create table CartItem(" +
 					"cid char(20)," +
-					"stock_number char(20)," +
+					"stock_number char(7)," +
 					"amount integer not null," +
 					"primary key (cid, stock_number)," +
-					"foreign key (cid) references customer(cid)," +
-					"foreign key (stock_number) references martitem(stock_number))";
+					"foreign key (cid) references customer(cid) on delete cascade," +
+					"foreign key (stock_number) references martitem(stock_number) on delete cascade)";
 			try
 			{
 				Statement statement = connection.createStatement();
@@ -196,6 +196,8 @@ public class EMartTableGenesis
 	public void seedValues()
 	{
 		DiscountModel discountModel = new DiscountModel(connection);
+		AccessoryModel accessoryModel = new AccessoryModel(connection);
+		CartItemModel cartItemModel = new CartItemModel(connection);
 		discountModel.setAll("Gold", 10);
 		discountModel.insert();
 		discountModel.setAll("Silver", 5);
@@ -206,17 +208,29 @@ public class EMartTableGenesis
 		model.setAll("Rhagrid", "Rhagrid", "Rubeus Hagrid", "rhagrid@cs", "123 MyStreet, Goleta apt A, Ca", "Gold", "FALSE");
 		model.insert();
 		MartItemModel itemModel = new MartItemModel(connection);
-		itemModel.setAll("SA10188", "Laptop", 1630, 12, "HP", "6111");
+		itemModel.setAll("AA00101", "Laptop", 1630, 12, "HP", "6111");
 		itemModel.insert();
 		DescriptionModel descriptionModel = new DescriptionModel(connection);
-		descriptionModel.setAll("SA10188", "Processor speed", "3.33Ghz");
+		descriptionModel.setAll("AA00101", "Processor speed", "3.33Ghz");
 		descriptionModel.insert();
-		descriptionModel.setAll("SA10188", "Ram size", "512 Mb");
+		descriptionModel.setAll("AA00101", "Ram size", "512 Mb");
 		descriptionModel.insert();
-		descriptionModel.setAll("SA10188", "Hard disk size", "100Gb");
+		descriptionModel.setAll("AA00101", "Hard disk size", "100Gb");
 		descriptionModel.insert();
-		descriptionModel.setAll("SA10188", "Display Size", "17\"");
+		descriptionModel.setAll("AA00101", "Display Size", "17\"");
 		descriptionModel.insert();
+		
+		itemModel.setAll("AA00301", "Monitor", 69.99, 36, "Envision", "720");
+		itemModel.insert();
+		descriptionModel.setAll("AA00301", "Size", "17\"");
+		descriptionModel.insert();;
+		descriptionModel.setAll("AA00301", "Weight", "25 lb");
+		accessoryModel.setAll("AA00301", "AA00101");
+		accessoryModel.insert();
+		
+		cartItemModel.setAll("Rhagrid", "AA00101", 3);
+		cartItemModel.insert();
+		
 	}
 	
 	public void clearTables()

@@ -92,8 +92,15 @@ public class CustomerModel
 			System.out.println("Customers:");
 			while (rs.next())
 			{
-				System.out.println("in rs");
 				System.out.println(rs.getString("cid") + " | " + rs.getString("password") + " | " + rs.getString("customer_name") + " | " + rs.getString("email") + " | " + rs.getString("address") + " | " + rs.getString("status") + " | " + rs.getString("is_manager"));
+				PreparedStatement cartStmt = Main.EMART_CONNECTION.prepareStatement("select * from cartitem where cid = ?");
+				System.out.println("Cart Items:");
+				cartStmt.setString(1, rs.getString("cid"));
+				ResultSet cartrs = cartStmt.executeQuery();
+				while (cartrs.next())
+				{
+					System.out.println(cartrs.getString("stock_number") + " x" + cartrs.getInt("amount"));
+				}
 			}
 		} catch (SQLException e)
 		{
