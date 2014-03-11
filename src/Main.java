@@ -48,6 +48,8 @@ public class Main
 			tableGen.seedValues();
 			MartItemModel.printAll();
 			CustomerModel.printAll();
+			depotGen.seedValues();
+			DepotItemModel.printAll();
 		}
 		else
 		{

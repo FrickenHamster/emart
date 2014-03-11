@@ -1,8 +1,13 @@
+import com.sun.org.apache.xpath.internal.SourceTree;
+
+import java.sql.*;
+
 /**
  * Created by jessie on 3/8/14.
  */
 public class DepotItemModel
 {
+	private Connection connection;
 	private String stockNumber;
 	private int quantity;
 	private int maxStock;
@@ -12,10 +17,41 @@ public class DepotItemModel
 	private String mName;
 	private String modelNumber;
 	
-	public DepotItemModel()
+	public DepotItemModel(Connection connection)
 	{
+		this.connection = connection;
+	}
+
+	public void setAll(String stockNumber, int quantity, int maxStock, int minStock, int replenish, String location, String mName, String modelNumber)
+	{
+		this.stockNumber = stockNumber;
+		this.quantity = quantity;
+		this.maxStock = maxStock;
+		this.minStock = minStock;
+		this.replenish = replenish;
+		this.location = location;
+		this.mName = mName;
+		this.modelNumber = modelNumber;
+	}
+	
+	public void insert()
+	{
+		Statement statement;
+		try
+		{
+			statement = connection.createStatement();
+			statement.executeUpdate("insert into DepotItem " +
+					"values(" + "'" + stockNumber + "'" + ","
+					 + quantity + "," +  maxStock + "," + minStock + "," + replenish 
+					+ "," + "'" + location + "'" + "," + "'" + mName + "'" + "," + "'" + modelNumber + "')");
+			
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
 		
 	}
+
 	public DepotItemModel(String stockNumber)
 	{
 		
@@ -99,5 +135,27 @@ public class DepotItemModel
 	public void setmodelNumber(String modelNumber)
 	{
 		this.modelNumber = modelNumber;
+	}
+	
+	public static void printAll()
+	{
+		try
+		{
+			PreparedStatement stmt = Main.EMART_CONNECTION.prepareStatement("select * " +
+					"from DepotItem" );
+			ResultSet rs = stmt.executeQuery();
+			System.out.println("Depot Items:");
+			while (rs.next())
+			{
+				System.out.println(rs.getString("stock_number") + "|" + rs.getString("quantity") + 
+					"|" + rs.getString("max_stock")+ "|" + rs.getString("min_stock") + "|" + 
+					rs.getString("replenish") + "|" + rs.getString("location") +"|" + rs.getString("mname") 
+					+ "|" + rs.getString("model_number"));
+				
+			}
+		}catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
 	}
 }

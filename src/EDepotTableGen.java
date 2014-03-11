@@ -25,7 +25,7 @@ public class EDepotTableGen
 					"replenish integer not null," +
 					"location char(20) not null," +
 					"mname char(20) not null," +
-					"model_name char (20) not null," +
+					"model_number char (20) not null," +
 					"primary key (stock_number))";
 			try
 			{
@@ -125,6 +125,12 @@ public class EDepotTableGen
 		
 	}
 	
+	public void seedValues()
+	{
+		DepotItemModel depotItemModel = new DepotItemModel(connection);
+		depotItemModel.setAll("a",1,2,3,4,"b", "c", "d");
+		depotItemModel.insert();
+	}
 	public void clearTables()
 	{
 		dropTable("InReplenishmentOrder");
