@@ -77,6 +77,7 @@ public class MartItemModel
 			System.out.println("Mart Items:");
 			while (rs.next())
 			{
+				System.out.println("Item:");
 				System.out.println(rs.getString("stock_number") + " | " + rs.getInt("warranty") + " | " + rs.getDouble("price") + " | " + rs.getString("category") + " | " + rs.getString("manufacturer") + " | " + rs.getString("model_number"));
 				System.out.println("descriptions:");
 				PreparedStatement desstmt = Main.EMART_CONNECTION.prepareStatement("select attribute, attribute_value from description where stock_number = ?");

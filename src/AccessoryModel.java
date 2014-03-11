@@ -25,6 +25,11 @@ public class AccessoryModel
 		this.accessoryItem = accessoryItem;
 	}
 
+	public void insert(String parentItem, String accessoryItem)
+	{
+		setAll(parentItem, accessoryItem);
+		insert();
+	}
 
 	public void insert()
 	{

@@ -25,6 +25,12 @@ public class DescriptionModel
 		this.value = value;
 	}
 	
+	public void insert(String stockNumber, String attribute, String value)
+	{
+		setAll(stockNumber, attribute, value);
+		insert();
+	}
+	
 	public void insert()
 	{
 		try
