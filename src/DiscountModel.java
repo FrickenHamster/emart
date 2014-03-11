@@ -27,6 +27,12 @@ public class DiscountModel
 		this.percent = percent;
 	}
 	
+	public void insert(String status, double percent)
+	{
+		setAll(status, percent);
+		insert();
+	}
+	
 	public void insert()
 	{
 		

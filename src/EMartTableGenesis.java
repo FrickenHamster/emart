@@ -1,6 +1,7 @@
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 
 /**
  * Created with IntelliJ IDEA.
@@ -152,11 +153,12 @@ public class EMartTableGenesis
 			}
 		}
 		{
-			String createString = "create table Sales(" +
+			String createString = "create table Sale(" +
 					"order_number integer," +
 					"cid char(20)," +
+					"total real not null," +
 					"order_date timestamp not null," +
-					"primary key(order_number, cid))";
+					"primary key(order_number))";
 			try
 			{
 				Statement statement = connection.createStatement();
@@ -165,7 +167,7 @@ public class EMartTableGenesis
 			{
 				if (e.getMessage().startsWith("ORA-00955: name is already used by an existing object"))
 				{
-					System.out.println("table sales already exists");
+					System.out.println("table sale already exists");
 				}
 				else
 					e.printStackTrace();
@@ -174,9 +176,12 @@ public class EMartTableGenesis
 		{
 			String createString = "create table OrderedItem(" +
 					"order_number integer," +
-					"total real not null," +
-					"order_date timestamp not null," +
-					"primary key (order_number))";
+					"stock_number char(7)," +
+					"amount int not null," +
+					"item_total real not null," +
+					"primary key (order_number)," +
+					"foreign key (order_number) references sale(order_number) on delete cascade," +
+					"foreign key (stock_number) references martitem(stock_number))";
 			try
 			{
 				Statement statement = connection.createStatement();
@@ -198,19 +203,16 @@ public class EMartTableGenesis
 		DiscountModel discountModel = new DiscountModel(connection);
 		AccessoryModel accessoryModel = new AccessoryModel(connection);
 		CartItemModel cartItemModel = new CartItemModel(connection);
-		discountModel.setAll("Gold", 10);
-		discountModel.insert();
-		discountModel.setAll("Silver", 5);
-		discountModel.insert();
-		discountModel.setAll("Green", 0);
-		discountModel.insert();
-		CustomerModel model = new CustomerModel(connection);
-		model.setAll("Rhagrid", "Rhagrid", "Rubeus Hagrid", "rhagrid@cs", "123 MyStreet, Goleta apt A, Ca", "Gold", "FALSE");
-		model.insert();
+		SaleModel saleModel = new SaleModel(connection);
 		MartItemModel itemModel = new MartItemModel(connection);
-		itemModel.setAll("AA00101", "Laptop", 1630, 12, "HP", "6111");
-		itemModel.insert();
+		OrderedItemModel orderedItemModel = new OrderedItemModel(connection);
 		DescriptionModel descriptionModel = new DescriptionModel(connection);
+		discountModel.insert("Gold", 10);
+		discountModel.insert("Silver", 5);
+		discountModel.insert("Green", 0);
+		CustomerModel model = new CustomerModel(connection);
+		model.insert("Rhagrid", "Rhagrid", "Rubeus Hagrid", "rhagrid@cs", "123 MyStreet, Goleta apt A, Ca", "Gold", "FALSE");
+		itemModel.insert("AA00101", "Laptop", 1630, 12, "HP", "6111");
 		descriptionModel.setAll("AA00101", "Processor speed", "3.33Ghz");
 		descriptionModel.insert();
 		descriptionModel.setAll("AA00101", "Ram size", "512 Mb");
@@ -219,17 +221,57 @@ public class EMartTableGenesis
 		descriptionModel.insert();
 		descriptionModel.setAll("AA00101", "Display Size", "17\"");
 		descriptionModel.insert();
+		itemModel.setAll("AA00201", "Desktop", 239, 12, "Dell", "420");
+		itemModel.insert();
+		descriptionModel.setAll("AA00201", "Processor speed", "2.53Ghz");
+		descriptionModel.insert();
+		descriptionModel.setAll("AA00201", "Ram size", "256 Mb");
+		descriptionModel.insert();
+		descriptionModel.setAll("AA00201", "Hard disk size", "80Gb");
+		descriptionModel.insert();
+		descriptionModel.setAll("AA00201", "Os", "none");
+		descriptionModel.insert();
+		itemModel.setAll("AA00202", "Desktop", 369.99, 12, "Emachine", "3958");
+		itemModel.insert();
+		descriptionModel.setAll("AA00202", "Processor speed", "2.9Ghz");
+		descriptionModel.insert();
+		descriptionModel.setAll("AA00202", "Ram size", "512 Mb");
+		descriptionModel.insert();
+		descriptionModel.setAll("AA00202", "Hard disk size", "80Gb");
+		descriptionModel.insert();
 		
 		itemModel.setAll("AA00301", "Monitor", 69.99, 36, "Envision", "720");
 		itemModel.insert();
 		descriptionModel.setAll("AA00301", "Size", "17\"");
-		descriptionModel.insert();;
+		descriptionModel.insert();
 		descriptionModel.setAll("AA00301", "Weight", "25 lb");
-		accessoryModel.setAll("AA00301", "AA00101");
+		descriptionModel.insert();
+		accessoryModel.setAll("AA00301", "AA00201");
 		accessoryModel.insert();
+		accessoryModel.setAll("AA00301", "AA00202");
+		accessoryModel.insert();
+
+		itemModel.setAll("AA00302", "Monitor", 279.99, 36, "Samsung", "712");
+		itemModel.insert();
+		descriptionModel.setAll("AA00302", "Size", "17\"");
+		descriptionModel.insert();
+		descriptionModel.setAll("AA00302", "Weight", "9.6 lb");
+		descriptionModel.insert();
+		accessoryModel.setAll("AA00302", "AA00201");
+		accessoryModel.insert();
+		accessoryModel.setAll("AA00302", "AA00202");
+		accessoryModel.insert();
+
+		itemModel.setAll("AA00401", "Software", 19.99, 60, "Symantec", "2005");
+		itemModel.insert();
 		
 		cartItemModel.setAll("Rhagrid", "AA00101", 3);
 		cartItemModel.insert();
+		
+		saleModel.setAll(0, "Rhagrid", 200, new Timestamp(123123123));
+		saleModel.insert();
+		orderedItemModel.setAll(0, "AA00301", 200, 2);
+		orderedItemModel.insert();
 		
 	}
 	
@@ -245,7 +287,7 @@ public class EMartTableGenesis
 		
 		
 		dropTable("discount");
-		dropTable("sales");
+		dropTable("sale");
 		
 	}
 	private void dropTable(String tableName)
