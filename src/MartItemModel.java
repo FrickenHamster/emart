@@ -32,6 +32,11 @@ public class MartItemModel
 		this.modelNumber = modelNumber;
 	}
 	
+	public void insert(String stockNumber, String category, double price, int warranty, String manufacturer, String modelNumber)
+	{
+		setAll(stockNumber, category, price, warranty, manufacturer, modelNumber);
+		insert();
+	}
 	
 	public void insert()
 	{
@@ -39,19 +44,13 @@ public class MartItemModel
 		{
 			String insertString = "insert into martitem values(?, ?, ?, ?, ?, ?)";
 			PreparedStatement insStmt = connection.prepareStatement(insertString);
-			/*statement.executeUpdate("insert into martitem " +
-					"values(" + "'" + stockNumber + "'" + "," + warranty + "," + price + "," + "'" + category + "'" + "'" + manufacturer + "','" + modelNumber + "')");*/
 			insStmt.setString(1,  stockNumber );
 			insStmt.setInt(2, warranty);
 			insStmt.setDouble(3, price);
 			insStmt.setString(4, category);
 			insStmt.setString(5, manufacturer);
 			insStmt.setString(6, modelNumber);
-			//String insertString = "insert into martitem values(?, ?, ?, ?, ?, ?)";
-			//Statement insStmt = connection.createStatement();
-			
 			insStmt.executeUpdate();//"insert into martitem values('sfe', 3, 43, 'afse', 'afewa', 'sdfe')");
-			//System.out.println(insStmt.);
 		} catch (SQLException e)
 		{
 			e.printStackTrace();

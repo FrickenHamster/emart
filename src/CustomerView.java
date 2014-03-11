@@ -6,9 +6,16 @@
  */
 public class CustomerView
 {
-
-	public CustomerView()
+	private CustomerController customerController;
+	
+	
+	public CustomerView(CustomerController customerController)
 	{
-
+		this.customerController = customerController;
+		
 	}
+	
+	
+	
+	
 }

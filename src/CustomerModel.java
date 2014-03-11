@@ -64,17 +64,27 @@ public class CustomerModel
 		}
 	}
 	
+	public void insert(String customerIdentifier, String password, String name, String email, String address, String status, String manager)
+	{
+		setAll(customerIdentifier,password,name,email,address,status,manager);
+		insert();
+	}
+	
 	public void insert()
 	{
-		Statement statement;
 		try
 		{
-			statement = connection.createStatement();
-			//System.out.println("insert into customer " +
-			//		"values(" + customerIdentifier + "," + password + "," + name + "," + email + "," + address + "," + status + "," + manager + ")");
+			String insString = "insert into customer values(?, ?, ?, ?, ?, ?, ?)";
+			PreparedStatement stmt = connection.prepareStatement(insString);
+			stmt.setString(1, customerIdentifier);
+			stmt.setString(2, password);
+			stmt.setString(3, name);
+			stmt.setString(4, email);
+			stmt.setString(5, address);
+			stmt.setString(6, status);
+			stmt.setString(7, manager);
+			stmt.executeUpdate();
 			
-			statement.executeUpdate("insert into customer " +
-					"values(" + "'" + customerIdentifier + "'" + "," + "'" + password + "'" + "," + "'" + name + "'" + "," + "'" + email + "'" + "," + "'" + address + "'" + "," + "'" + status + "'" + "," + "'" + manager + "'" + ")");
 		} catch (SQLException e)
 		{
 			e.printStackTrace();
