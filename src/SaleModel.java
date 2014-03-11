@@ -30,6 +30,12 @@ public class SaleModel
 		this.date = date;
 	}
 	
+	public void insert(int saleNumber, String customerIdentifier, double total, Timestamp date)
+	{
+		setAll(saleNumber, customerIdentifier, total, date);
+		insert();
+	}
+	
 	public void insert()
 	{
 		try

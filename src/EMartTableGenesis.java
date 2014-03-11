@@ -210,68 +210,80 @@ public class EMartTableGenesis
 		discountModel.insert("Gold", 10);
 		discountModel.insert("Silver", 5);
 		discountModel.insert("Green", 0);
+		discountModel.insert("New", 10);
 		CustomerModel model = new CustomerModel(connection);
+		
 		model.insert("Rhagrid", "Rhagrid", "Rubeus Hagrid", "rhagrid@cs", "123 MyStreet, Goleta apt A, Ca", "Gold", "FALSE");
+		model.insert("Mhooch", "Mhooch", "Madam Hooch", "mhooch@cs", "123 MyStreet, Goleta apt B, Ca", "Silver", "FALSE");
+		model.insert("Amoody", "Amoody", "Alastor Moody", "amoody@cs", "123 MyStreet, Goleta apt C, Ca", "New", "FALSE");
+		model.insert("Pquirrell", "Pquirrell", "Professor Quirrell", "pquirrell@cs", "123 MyStreet, Goleta apt D, Ca", "New", "FALSE");
+		model.insert("Sblack", "Sblack", "Sirius Black", "sblack@cs", "123 MyStreet, Goleta apt E, Ca", "Green", "TRUE");
+		model.insert("Ddiggle", "Ddiggle", "Dedalus Diggle", "ddiggle@cs", "123 MyStreet, Goleta apt F, Ca", "Green", "FALSE");
+		
 		itemModel.insert("AA00101", "Laptop", 1630, 12, "HP", "6111");
-		descriptionModel.setAll("AA00101", "Processor speed", "3.33Ghz");
-		descriptionModel.insert();
-		descriptionModel.setAll("AA00101", "Ram size", "512 Mb");
-		descriptionModel.insert();
-		descriptionModel.setAll("AA00101", "Hard disk size", "100Gb");
-		descriptionModel.insert();
-		descriptionModel.setAll("AA00101", "Display Size", "17\"");
-		descriptionModel.insert();
-		itemModel.setAll("AA00201", "Desktop", 239, 12, "Dell", "420");
-		itemModel.insert();
-		descriptionModel.setAll("AA00201", "Processor speed", "2.53Ghz");
-		descriptionModel.insert();
-		descriptionModel.setAll("AA00201", "Ram size", "256 Mb");
-		descriptionModel.insert();
-		descriptionModel.setAll("AA00201", "Hard disk size", "80Gb");
-		descriptionModel.insert();
-		descriptionModel.setAll("AA00201", "Os", "none");
-		descriptionModel.insert();
-		itemModel.setAll("AA00202", "Desktop", 369.99, 12, "Emachine", "3958");
-		itemModel.insert();
-		descriptionModel.setAll("AA00202", "Processor speed", "2.9Ghz");
-		descriptionModel.insert();
-		descriptionModel.setAll("AA00202", "Ram size", "512 Mb");
-		descriptionModel.insert();
-		descriptionModel.setAll("AA00202", "Hard disk size", "80Gb");
-		descriptionModel.insert();
+		descriptionModel.insert("AA00101", "Processor speed", "3.33Ghz");
+		descriptionModel.insert("AA00101", "Ram size", "512 Mb");
+		descriptionModel.insert("AA00101", "Hard disk size", "100Gb");
+		descriptionModel.insert("AA00101", "Display Size", "17\"");
+		itemModel.insert("AA00201", "Desktop", 239, 12, "Dell", "420");
+		descriptionModel.insert("AA00201", "Processor speed", "2.53Ghz");
+		descriptionModel.insert("AA00201", "Ram size", "256 Mb");
+		descriptionModel.insert("AA00201", "Hard disk size", "80Gb");
+		descriptionModel.insert("AA00201", "Os", "none");
+		itemModel.insert("AA00202", "Desktop", 369.99, 12, "Emachine", "3958");
+		descriptionModel.insert("AA00202", "Processor speed", "2.9Ghz");
+		descriptionModel.insert("AA00202", "Ram size", "512 Mb");
+		descriptionModel.insert("AA00202", "Hard disk size", "80Gb");
 		
-		itemModel.setAll("AA00301", "Monitor", 69.99, 36, "Envision", "720");
-		itemModel.insert();
-		descriptionModel.setAll("AA00301", "Size", "17\"");
-		descriptionModel.insert();
-		descriptionModel.setAll("AA00301", "Weight", "25 lb");
-		descriptionModel.insert();
-		accessoryModel.setAll("AA00301", "AA00201");
-		accessoryModel.insert();
-		accessoryModel.setAll("AA00301", "AA00202");
-		accessoryModel.insert();
+		itemModel.insert("AA00301", "Monitor", 69.99, 36, "Envision", "720");
+		descriptionModel.insert("AA00301", "Size", "17\"");
+		descriptionModel.insert("AA00301", "Weight", "25 lb");
+		accessoryModel.insert("AA00301", "AA00201");
+		accessoryModel.insert("AA00301", "AA00202");
 
-		itemModel.setAll("AA00302", "Monitor", 279.99, 36, "Samsung", "712");
-		itemModel.insert();
-		descriptionModel.setAll("AA00302", "Size", "17\"");
-		descriptionModel.insert();
-		descriptionModel.setAll("AA00302", "Weight", "9.6 lb");
-		descriptionModel.insert();
-		accessoryModel.setAll("AA00302", "AA00201");
-		accessoryModel.insert();
-		accessoryModel.setAll("AA00302", "AA00202");
-		accessoryModel.insert();
+		itemModel.insert("AA00302", "Monitor", 279.99, 36, "Samsung", "712");
+		descriptionModel.insert("AA00302", "Size", "17\"");
+		descriptionModel.insert("AA00302", "Weight", "9.6 lb");
+		accessoryModel.insert("AA00302", "AA00201");
+		accessoryModel.insert("AA00302", "AA00202");
 
-		itemModel.setAll("AA00401", "Software", 19.99, 60, "Symantec", "2005");
-		itemModel.insert();
+		itemModel.insert("AA00401", "Software", 19.99, 60, "Symantec", "2005");
+		descriptionModel.insert("AA00401", "Required disk size", "128 MB");
+		accessoryModel.insert("AA00401", "AA00101");
+		accessoryModel.insert("AA00401", "AA00201");
+		accessoryModel.insert("AA00401", "AA00202");
+
+		itemModel.insert("AA00402", "Software", 19.99, 60, "Mcafee", "2005");
+		descriptionModel.insert("AA00402", "Required disk size", "128 MB");
+		accessoryModel.insert("AA00402", "AA00101");
+		accessoryModel.insert("AA00402", "AA00201");
+		accessoryModel.insert("AA00402", "AA00202");
 		
-		cartItemModel.setAll("Rhagrid", "AA00101", 3);
-		cartItemModel.insert();
+		itemModel.insert("AA00501", "Printer", 299.99, 12, "HP", "1320");
+		descriptionModel.insert("AA00501", "Resolution", "1200 dpi");
+		descriptionModel.insert("AA00501", "Sheet capacity", "500");
+		descriptionModel.insert("AA00501", "Weight", ".4 lb");
+		accessoryModel.insert("AA00501", "AA00201");
+		accessoryModel.insert("AA00501", "AA00202");
+
+		itemModel.insert("AA00601", "Camera", 119.99, 3, "HP", "435");
+		descriptionModel.insert("AA00601", "Resolution", "3.1 Mp");
+		descriptionModel.insert("AA00601", "Max zoom", "5 times");
+		descriptionModel.insert("AA00601", "Weight", "24.7 lb");
+		accessoryModel.insert("AA00601", "AA00201");
+		accessoryModel.insert("AA00601", "AA00202");
+
+		itemModel.insert("AA00602", "Camera", 329.99, 3, "Cannon", "738");
+		descriptionModel.insert("AA00602", "Resolution", "3.1 Mp");
+		descriptionModel.insert("AA00602", "Max zoom", "5 times");
+		descriptionModel.insert("AA00602", "Weight", "24.7 lb");
+		accessoryModel.insert("AA00602", "AA00201");
+		accessoryModel.insert("AA00602", "AA00202");
 		
-		saleModel.setAll(0, "Rhagrid", 200, new Timestamp(123123123));
-		saleModel.insert();
-		orderedItemModel.setAll(0, "AA00301", 200, 2);
-		orderedItemModel.insert();
+		cartItemModel.insert("Rhagrid", "AA00101", 3);
+		
+		saleModel.insert(0, "Rhagrid", 200, new Timestamp(123123123));
+		orderedItemModel.insert(0, "AA00301", 200, 2);
 		
 	}
 	

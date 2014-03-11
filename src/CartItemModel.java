@@ -27,6 +27,12 @@ public class CartItemModel
 		this.amount = amount;
 	}
 	
+	public void insert(String customerIdentifier, String stockNumber, int amount)
+	{
+		setAll(customerIdentifier, stockNumber, amount);
+		insert();
+	}
+	
 	public void insert()
 	{
 		try

@@ -28,6 +28,12 @@ public class OrderedItemModel
 		this.itemTotal = itemTotal;
 		this.amount = amount;
 	}
+	
+	public void insert(int orderNumber, String stockNumber, double itemTotal, int amount)
+	{
+		setAll(orderNumber, stockNumber, itemTotal, amount);
+		insert();
+	}
 
 	public void insert()
 	{
