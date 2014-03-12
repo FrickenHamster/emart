@@ -33,7 +33,11 @@ public class DepotItemModel
 		this.mName = mName;
 		this.modelNumber = modelNumber;
 	}
-	
+	public void insert(String stockNumber, int quantity, int maxStock, int minStock, int replenish, String location, String mName, String modelNumber)
+	{
+		setAll(stockNumber, quantity, maxStock, minStock, replenish, location, mName, modelNumber);
+		insert();
+	}
 	public void insert()
 	{
 		Statement statement;
@@ -55,6 +59,55 @@ public class DepotItemModel
 	public DepotItemModel(String stockNumber)
 	{
 		
+	}
+	
+	public void update()
+	{
+		try{
+			PreparedStatement stmt = connection.prepareStatement("update DepotItem set stock_number = ?, quantity = ?, max_stock = ?, min_stock = ?, replenish = ?, location = ?, mname = ?, model_number = ? where stock_number = ?");
+			stmt.setString(1, stockNumber);
+			stmt.setInt(2, quantity);
+			System.out.println(quantity);
+			stmt.setInt(3, maxStock);
+			stmt.setInt(4, minStock);
+			stmt.setInt(5, replenish);
+			stmt.setString(6, location);
+			stmt.setString(7,mName);
+			stmt.setString(8,modelNumber);
+			stmt.setString(9, stockNumber);
+			stmt.executeUpdate();
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+
+	}
+	
+	public boolean load(String stockNumber)
+	{
+		try
+		{
+			PreparedStatement stmt = connection.prepareStatement("select * from DepotItem where stock_number = ?");
+			stmt.setString(1, stockNumber);
+			ResultSet rs = stmt.executeQuery();
+			if(!rs.next())
+			{
+				return false;
+			}
+			this.stockNumber = rs.getString("stock_number");
+			this.quantity = rs.getInt("quantity");
+			this.maxStock = rs.getInt("max_stock");
+			this.minStock = rs.getInt("min_stock");
+			this.replenish = rs.getInt("replenish");
+			this.location = rs.getString("location");
+			this.mName = rs.getString("mname");
+			this.modelNumber = rs.getString("model_number");
+			return true;
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 	public String getStockNumber()
