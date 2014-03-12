@@ -9,6 +9,13 @@ public class ManagerController
 
 	public ManagerController()
 	{
-
+		
 	}
+	
+	
+	public void changePrice(String stockNumber, double price)
+	{
+		
+	}
+	
 }

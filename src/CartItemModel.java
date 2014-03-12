@@ -54,11 +54,11 @@ public class CartItemModel
 	{
 		try
 		{
-			String updateString = "update cartitem set cid = ?, stock_number = ?, amount = ? where cid = ?";
+			String updateString = "update cartitem set stock_number = ?, amount = ? where cid = ?";
 			PreparedStatement stmt = connection.prepareStatement(updateString);
-			stmt.setString(1, customerIdentifier);
-			stmt.setString(2, stockNumber);
-			stmt.setInt(3, amount);
+			stmt.setString(1, stockNumber);
+			stmt.setInt(2, amount);
+			stmt.setString(3, customerIdentifier);
 		} catch (SQLException e)
 		{
 			e.printStackTrace();

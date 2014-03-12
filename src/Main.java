@@ -46,10 +46,18 @@ public class Main
 			tableGen.createTables();
 			depotGen.createTables();
 			tableGen.seedValues();
-			MartItemModel.printAll();
-			CustomerModel.printAll();
-			depotGen.seedValues();
-			DepotItemModel.printAll();
+			/*MartItemModel.printAll();
+			CustomerModel.printAll();*/
+			
+			CustomerController controller = new CustomerController(EMART_CONNECTION, "Rhagrid");
+			CustomerView view = new CustomerView(controller);
+			/*view.displayCart();
+			view.searchStockNumber("AA00101");
+			view.searchCategory("Desktop");*/
+			view.displayCart();
+			controller.fulfillOrder();
+			
+			SaleModel.printAll();
 		}
 		else
 		{
