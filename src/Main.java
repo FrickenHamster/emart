@@ -54,9 +54,14 @@ public class Main
 			/*view.displayCart();
 			view.searchStockNumber("AA00101");
 			view.searchCategory("Desktop");*/
+			controller.addToCart("AA00101", 2);
+			controller.addToCart("AA00401", 1);
+			controller.deleteCartItem("AA00301");
 			view.displayCart();
 			controller.fulfillOrder();
 			
+			ManagerView mview = new ManagerView(new ManagerController(EMART_CONNECTION));
+			mview.printSalesProduct("AA00401");
 			SaleModel.printAll();
 		}
 		else

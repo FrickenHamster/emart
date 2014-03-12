@@ -49,10 +49,38 @@ public class CustomerController
 		{
 			cartModel.setAmount(cartModel.getAmount() + amount);
 			cartModel.update();
+			System.out.println(cartModel.getAmount());
 		} else
 		{
 			cartModel.setAll(customerIdentifier, stockNumber, amount);
 			cartModel.insert();
+		}
+	}
+	
+	public void deleteCartItem(String stockNumber)
+	{
+		try
+		{
+			PreparedStatement stmt = connection.prepareStatement("delete from cartitem where trim(cid) = ? and stock_number = ?");
+			stmt.setString(1, customerIdentifier);
+			stmt.setString(2, stockNumber);
+			stmt.executeUpdate();
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+	public void clearCart()
+	{
+		try
+		{
+			PreparedStatement stmt = connection.prepareStatement("delete from cartitem where trim(cid) = ?");
+			stmt.setString(1, customerIdentifier);
+			stmt.executeUpdate();
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
 		}
 	}
 
@@ -153,7 +181,7 @@ public class CustomerController
 				orderModel.setAll(ordnum, cartresult.getString("stock_number"), prs.getDouble("total"), cartresult.getInt("amount"));
 				orderModel.insert();
 			}
-			
+			clearCart();
 		} catch (SQLException e)
 		{
 			e.printStackTrace();

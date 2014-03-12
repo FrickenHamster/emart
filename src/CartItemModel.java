@@ -15,22 +15,24 @@ public class CartItemModel
 	private String customerIdentifier;
 	private String stockNumber;
 	private int amount;
+	private double price;
 
 	public CartItemModel(Connection connection)
 	{
 		this.connection = connection;
 	}
 
-	public void setAll(String customerIdentifier, String stockNumber, int amount)
+	public void setAll(String customerIdentifier, String stockNumber, int amount, double price)
 	{
 		this.customerIdentifier = customerIdentifier;
 		this.stockNumber = stockNumber;
 		this.amount = amount;
+		this.price = price;
 	}
 	
-	public void insert(String customerIdentifier, String stockNumber, int amount)
+	public void insert(String customerIdentifier, String stockNumber, int amount, double price)
 	{
-		setAll(customerIdentifier, stockNumber, amount);
+		setAll(customerIdentifier, stockNumber, amount);	
 		insert();
 	}
 	
@@ -54,11 +56,13 @@ public class CartItemModel
 	{
 		try
 		{
-			String updateString = "update cartitem set stock_number = ?, amount = ? where cid = ?";
+			String updateString = "update cartitem set amount = ? where trim(cid) = trim(?) and stock_number = ?";
 			PreparedStatement stmt = connection.prepareStatement(updateString);
-			stmt.setString(1, stockNumber);
-			stmt.setInt(2, amount);
-			stmt.setString(3, customerIdentifier);
+			stmt.setString(3, stockNumber);
+			stmt.setInt(1, amount);
+			System.out.println(amount + "," + stockNumber + customerIdentifier);
+			stmt.setString(2, customerIdentifier);
+			stmt.executeUpdate();
 		} catch (SQLException e)
 		{
 			e.printStackTrace();
@@ -69,7 +73,7 @@ public class CartItemModel
 	{
 		try
 		{
-			PreparedStatement stmt = connection.prepareStatement("select * from cartitem where cid = ? and stock_number = ?");
+			PreparedStatement stmt = connection.prepareStatement("select * from cartitem where trim(cid) = ? and stock_number = ?");
 			stmt.setString(1, customerIdentifier);
 			stmt.setString(2, stockNumber);
 			ResultSet rs = stmt.executeQuery();

@@ -135,6 +135,7 @@ public class EMartTableGenesis
 					"cid char(20)," +
 					"stock_number char(7)," +
 					"amount integer not null," +
+					"price double not null," +
 					"primary key (cid, stock_number)," +
 					"foreign key (cid) references customer(cid) on delete cascade," +
 					"foreign key (stock_number) references martitem(stock_number) on delete cascade)";

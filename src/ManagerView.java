@@ -7,18 +7,22 @@
 public class ManagerView
 {
 
-	public ManagerView()
-	{
+	ManagerController controller;
 
+	public ManagerView(ManagerController controller)
+	{
+		this.controller = controller;
 	}
-	
+
 	public void printSalesProduct(String stockNumber)
 	{
-		
+		AmountPrice ap = controller.getSaleItem(stockNumber);
 	}
 	
 	public void printSalesCategory(String category)
 	{
 		
 	}
+	
+	
 }
