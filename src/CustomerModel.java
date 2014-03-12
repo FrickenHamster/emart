@@ -25,17 +25,6 @@ public class CustomerModel
 		this.connection = connection;
 	}
 
-	public CustomerModel(Connection connection, String customerIdentifier, String password, String name, String email, String address, String status, String manager)
-	{
-		this.connection = connection;
-		this.customerIdentifier = customerIdentifier;
-		this.password = password;
-		this.name = name;
-		this.email = email;
-		this.address = address;
-		this.status = status;
-		this.manager = manager;
-	}
 
 	public void setAll(String customerIdentifier, String password, String name, String email, String address, String status, String manager)
 	{
@@ -51,13 +40,15 @@ public class CustomerModel
 	public void load(String customerIdentifier)
 	{
 		this.customerIdentifier = customerIdentifier;
-		Statement statement = null;
 		try
 		{
-			statement = connection.createStatement();
-			ResultSet rs = statement.executeQuery("select password, customer_name, email, address, status, is_manager," +
-					"from customer c," +
-					"where c.cid =" + customerIdentifier + ";");
+			PreparedStatement stmt = connection.prepareStatement("select * from customer where cid = ?");
+			stmt.setString(1, customerIdentifier);
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next())
+			{
+				setAll(rs.getString("cid"), rs.getString("password"), rs.getString("customer_name"), rs.getString("email"), rs.getString("address"), rs.getString("status"), rs.getString("manager"));
+			}
 		} catch (SQLException e)
 		{
 			e.printStackTrace();

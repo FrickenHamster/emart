@@ -14,10 +14,17 @@ public class CustomerController
 
 	private Connection connection;
 	private CustomerModel currentModel;
+	private String customerIdentifier;
 
-	public CustomerController(Connection connection)
+
+	public CustomerController(Connection connection, String customerIdentifier)
 	{
 		this.connection = connection;
+		this.customerIdentifier = customerIdentifier;
+		
+		currentModel = new CustomerModel(connection);
+		currentModel.load(customerIdentifier);
+		
 	}
 
 	public ResultSet searchStockNumber(String stockNumber)
@@ -40,14 +47,14 @@ public class CustomerController
 	{
 		
 		CartItemModel cartModel = new CartItemModel(connection);
-		if (cartModel.load(currentModel.getCustomerIdentifier(), stockNumber))
+		if (cartModel.load(customerIdentifier, stockNumber))
 		{
 			cartModel.setAmount(cartModel.getAmount() + amount);
 			cartModel.update();
 		}
 		else
 		{
-			cartModel.setAll(currentModel.getCustomerIdentifier(), stockNumber,amount);
+			cartModel.setAll(customerIdentifier, stockNumber,amount);
 			cartModel.insert();
 		}
 	}
@@ -56,8 +63,8 @@ public class CustomerController
 	{
 		try
 		{
-			PreparedStatement stmt = connection.prepareStatement("select * from cartitem where cid = ?");
-			stmt.setString(1, currentModel.getCustomerIdentifier());
+			PreparedStatement stmt = connection.prepareStatement("select * from cartitem where trim(cid) = ?");
+			stmt.setString(1, customerIdentifier);
 			return stmt.executeQuery();
 		} catch (SQLException e)
 		{
@@ -66,5 +73,36 @@ public class CustomerController
 		return null;
 	}
 	
-	
+	public ResultSet getStockNumberSearch(String stockNumber)
+	{
+		try
+		{
+			PreparedStatement stmt = connection.prepareStatement("select * from martitem where trim(stock_number) = ?");
+			stmt.setString(1, stockNumber);
+			return stmt.executeQuery();
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public ResultSet getCategorySearch(String category)
+	{
+		try
+		{
+			PreparedStatement stmt = connection.prepareStatement("select * from martitem where trim(category) = ?");
+			stmt.setString(1, category);
+			return stmt.executeQuery();
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public String getCustomerIdentifier()
+	{
+		return customerIdentifier;
+	}
 }
