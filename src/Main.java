@@ -51,9 +51,13 @@ public class Main
 			
 			CustomerController controller = new CustomerController(EMART_CONNECTION, "Rhagrid");
 			CustomerView view = new CustomerView(controller);
-			view.displayCart();
+			/*view.displayCart();
 			view.searchStockNumber("AA00101");
-			view.searchCategory("Desktop");
+			view.searchCategory("Desktop");*/
+			view.displayCart();
+			controller.fulfillOrder();
+			
+			SaleModel.printAll();
 		}
 		else
 		{

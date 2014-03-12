@@ -29,13 +29,13 @@ public class SaleModel
 		this.total = total;
 		this.date = date;
 	}
-	
+
 	public void insert(int saleNumber, String customerIdentifier, double total, Timestamp date)
 	{
 		setAll(saleNumber, customerIdentifier, total, date);
 		insert();
 	}
-	
+
 	public void insert()
 	{
 		try
@@ -52,6 +52,82 @@ public class SaleModel
 			e.printStackTrace();
 		}
 	}
-	
-	
+
+	public Connection getConnection()
+	{
+		return connection;
+	}
+
+	public void setConnection(Connection connection)
+	{
+		this.connection = connection;
+	}
+
+	public int getSaleNumber()
+	{
+		return saleNumber;
+	}
+
+	public void setSaleNumber(int saleNumber)
+	{
+		this.saleNumber = saleNumber;
+	}
+
+	public String getCustomerIdentifier()
+	{
+		return customerIdentifier;
+	}
+
+	public void setCustomerIdentifier(String customerIdentifier)
+	{
+		this.customerIdentifier = customerIdentifier;
+	}
+
+	public double getTotal()
+	{
+		return total;
+	}
+
+	public void setTotal(double total)
+	{
+		this.total = total;
+	}
+
+	public Timestamp getDate()
+	{
+		return date;
+	}
+
+	public void setDate(Timestamp date)
+	{
+		this.date = date;
+	}
+
+
+	public static void printAll()
+	{
+		try
+		{
+
+			PreparedStatement stmt = Main.EMART_CONNECTION.prepareStatement("select * from sale");
+			ResultSet rs = stmt.executeQuery();
+			System.out.println("Orders:");
+			while (rs.next())
+			{
+				System.out.println("Order:");
+				System.out.println(rs.getString("order_id") + " | " + rs.getString("cid") + " | " + rs.getDouble("total") + " | " + rs.getTimestamp("order_date"));
+				System.out.println("ordered items:");
+				PreparedStatement desstmt = Main.EMART_CONNECTION.prepareStatement("select * from ordereditem where order_id = ?");
+				desstmt.setString(1, rs.getString("order_id"));
+				ResultSet desrs = desstmt.executeQuery();
+				while (desrs.next())
+				{
+					System.out.println(desrs.getString("stock_number") + ": " + desrs.getInt("amount") + " $" + desrs.getDouble("item_total"));
+				}
+			}
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+	}
 }

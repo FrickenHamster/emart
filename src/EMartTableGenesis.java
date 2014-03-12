@@ -154,11 +154,11 @@ public class EMartTableGenesis
 		}
 		{
 			String createString = "create table Sale(" +
-					"order_number integer," +
+					"order_id integer," +
 					"cid char(20)," +
 					"total real not null," +
 					"order_date timestamp not null," +
-					"primary key(order_number))";
+					"primary key(order_id))";
 			try
 			{
 				Statement statement = connection.createStatement();
@@ -175,12 +175,12 @@ public class EMartTableGenesis
 		}
 		{
 			String createString = "create table OrderedItem(" +
-					"order_number integer," +
+					"order_id integer," +
 					"stock_number char(7)," +
 					"amount int not null," +
 					"item_total real not null," +
-					"primary key (order_number)," +
-					"foreign key (order_number) references sale(order_number) on delete cascade," +
+					"primary key (order_id, stock_number)," +
+					"foreign key (order_id) references sale(order_id) on delete cascade," +
 					"foreign key (stock_number) references martitem(stock_number))";
 			try
 			{
@@ -281,9 +281,10 @@ public class EMartTableGenesis
 		accessoryModel.insert("AA00602", "AA00202");
 		
 		cartItemModel.insert("Rhagrid", "AA00101", 3);
+		cartItemModel.insert("Rhagrid", "AA00301", 2);
 		
-		saleModel.insert(0, "Rhagrid", 200, new Timestamp(123123123));
-		orderedItemModel.insert(0, "AA00301", 200, 2);
+		//saleModel.insert(0, "Rhagrid", 200, new Timestamp(123123123));
+		//orderedItemModel.insert(0, "AA00301", 200, 2);
 		
 	}
 	
