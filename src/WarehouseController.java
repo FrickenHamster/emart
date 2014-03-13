@@ -138,6 +138,7 @@ public class WarehouseController {
 
                     if (srs.getInt("numcount") >= 3) 
                     {
+                        
                         sendReplenishmentOrder(rs.getString("mname"));
                     }
                 }
