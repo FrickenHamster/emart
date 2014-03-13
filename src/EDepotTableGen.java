@@ -107,8 +107,7 @@ public class EDepotTableGen
 					"stock_number char(7)," +
 					"amount integer not null," +
 					"primary key (order_id, stock_number)," +
-					"foreign key (order_id) references ReplenishmentOrder (order_id) on delete cascade," +
-					"foreign key (stock_number) references DepotItem (stock_number))";
+					"foreign key (order_id) references ReplenishmentOrder (order_id) on delete cascade)";
 			try
 			{
 				Statement statement = connection.createStatement();

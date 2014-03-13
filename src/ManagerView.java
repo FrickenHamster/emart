@@ -1,4 +1,5 @@
-import java.util.Scanner;
+import java.sql.*;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,6 +20,7 @@ public class ManagerView
 		System.out.println("2:Change Status");
 		System.out.println("3:Make Replenishment Order");
 		System.out.println("4:Delete Unneeded Sales");
+		System.out.println("5:Exit");
 		int input = scanner.nextInt();
 		switch (input)
 		{
@@ -28,10 +30,25 @@ public class ManagerView
 			case 2:
 				statusChangeMenu();;
 				break;
-			
+			case 3:
+				WarehouseController wcon = new WarehouseController(Main.EMART_CONNECTION);
+				int id = wcon.getShipId();
+				System.out.println("To which company?");
+				makeReplenishMenu(id, scanner.next());
+				break;
 			case 4:
 				System.out.println("Precious Customer Information has been deleted");
 				controller.deleteNotNeededSale();
+				break;
+			case 5:
+				try
+				{
+					Main.EMART_CONNECTION.close();
+				} catch (SQLException e)
+				{
+					e.printStackTrace();
+				}
+				System.exit(0);
 				break;
 		}
 		mainMenu();
@@ -65,7 +82,6 @@ public class ManagerView
 	{
 		this.controller = controller;
 		scanner = new Scanner(System.in);
-		
 		mainMenu();
 	}
 	
@@ -76,6 +92,26 @@ public class ManagerView
 		System.out.println("Change to which status");
 		String status = scanner.next();
 		controller.changeCustomerStatus(cid, status);
+	}
+	
+	public void makeReplenishMenu(int replenishId, String mname)
+	{
+		System.out.println("Do you want to add to order number:" + replenishId + " 1:yes 2:no");
+		int nn = scanner.nextInt();
+		if (nn == 1)
+		{
+			System.out.println("What stock number?");
+			String stockNumber = scanner.next();
+			System.out.println("How Many?");
+			int amount = scanner.nextInt();
+			controller.addToReplenishmentOrder(stockNumber, amount);
+			makeReplenishMenu(replenishId, mname);
+		}
+		else
+		{
+			controller.sendReplenishmentOrder(replenishId, mname);
+		}
+			
 	}
 
 	public void printSalesProduct(String stockNumber)

@@ -57,6 +57,24 @@ public class MartItemModel
 		}
 	}
 
+	public void load(String stockNumber)
+	{
+		this.stockNumber = stockNumber;
+		try
+		{
+			PreparedStatement stmt = connection.prepareStatement("select * from martitem where trim(stock_number) = trim(?)");
+			stmt.setString(1, stockNumber);
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next())
+			{
+				setAll(rs.getString("stock_number"), rs.getString("category"), rs.getDouble("price"), rs.getInt("warranty"), rs.getString("manufacturer"), rs.getString("model_number"));
+			}
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+	}
+
 	public String getCategory()
 	{
 		return category;
@@ -66,7 +84,12 @@ public class MartItemModel
 	{
 		this.category = category;
 	}
-	
+
+	public double getPrice()
+	{
+		return price;
+	}
+
 	public static void printAll()
 	{
 		try

@@ -118,10 +118,23 @@ public class ManagerController
 		return null;
 	}
 	
-	public void addToReplenishmentOrder(String stockNumber, int amount)
+	public void addToReplenishmentOrder( String stockNumber, int amount)
 	{
 		replenishStockNumbers.add(stockNumber);
 		replenishAmount.add(amount);
+	}
+	public void sendReplenishmentOrder(int replenishid, String mname)
+	{
+		ReplenishmentOrderModel model = new ReplenishmentOrderModel(connection);
+		model.setAll(replenishid, mname);
+		model.insert();
+		ReplenishmentOrderModel.printAll();
+		InReplenishmentOrder inModel = new InReplenishmentOrder(connection);
+		for (int i = 0; i < replenishStockNumbers.size(); i++)
+		{
+			inModel.setAll(replenishid, replenishStockNumbers.get(i), replenishAmount.get(i));
+			inModel.insert();
+		}
 	}
 	
 	public void deleteNotNeededSale()

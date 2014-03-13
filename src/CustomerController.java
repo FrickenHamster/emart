@@ -53,7 +53,6 @@ public class CustomerController
 			cartModel.setAmount(cartModel.getAmount() + amount);
 
 			cartModel.update();
-			System.out.println(cartModel.getAmount());
 		} else
 		{
 			cartModel.setAll(customerIdentifier, stockNumber, amount, price);
@@ -191,6 +190,25 @@ public class CustomerController
 		}
 		return null;
 	}
+	
+	public void addFromOrder(int orderId)
+	{
+		try
+		{
+			PreparedStatement stmt = connection.prepareStatement("select * from ordereditem where trim(order_id) = trim(?)");
+			stmt.setInt(1, orderId);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next())
+			{
+				MartItemModel item = new MartItemModel(connection);
+				item.load(rs.getString("stock_number"));
+				addToCart(rs.getString("stock_number"), rs.getInt("amount"), item.getPrice());
+			}
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+	}
 
 	public String getCustomerIdentifier()
 	{
@@ -231,7 +249,6 @@ public class CustomerController
 			ResultSet cartresult = stmt.executeQuery();
 			cartresult.next();
 			double total = cartresult.getDouble("total");
-			System.out.println(total + currentModel.getStatus());
 			if (total <= 100)
 			{
 				stmt = connection.prepareStatement("select percent from discount where status = 'Shipping'");
@@ -241,7 +258,6 @@ public class CustomerController
 			}
 			SaleModel saleModel = new SaleModel(connection);
 			int ordnum = getNextOrderId();
-			System.out.println(ordnum);
 			Calendar cal = Calendar.getInstance();
 			saleModel.setAll(ordnum, customerIdentifier, total, new Timestamp(new Date().getTime()), cal.get(Calendar.MONTH), cal.get(Calendar.YEAR));
 			saleModel.insert();

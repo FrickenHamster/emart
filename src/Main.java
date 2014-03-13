@@ -2,6 +2,7 @@
 import oracle.jdbc.*;
 
 import java.sql.*;
+import java.util.*;
 
 public class Main
 {
@@ -96,10 +97,28 @@ public class Main
 		}
 		else if (args.length > 0 && args[0].equals("customer"))
 		{
-			PreparedStatement stmt =
-			System.out.println("Insert Customer ID");
+			System.out.println("Input Customer Identifier:");
+			String cid = new Scanner(System.in).next();
+			try
 			{
-				
+				PreparedStatement stmt = EMART_CONNECTION.prepareStatement("select is_manager from customer where trim(cid) = trim(?)");
+				stmt.setString(1, cid);
+				ResultSet rs = stmt.executeQuery();
+				if (rs.next())
+				{
+					if (rs.getString("is_manager").equals( "FALSE"))
+					{
+						CustomerView cview = new CustomerView(new CustomerController(EMART_CONNECTION, cid));
+					}
+					else
+					{
+						ManagerView mview = new ManagerView(new ManagerController(EMART_CONNECTION));
+					}
+				}
+			}
+			catch (SQLException e)
+			{
+				e.printStackTrace();
 			}
 		}
 		else

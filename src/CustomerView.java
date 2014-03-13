@@ -31,6 +31,7 @@ public class CustomerView
 		System.out.println("1:search");
 		System.out.println("2:view shopping cart");
 		System.out.println("3:Look up order");
+		System.out.println("4:exit");
 		int input = scanner.nextInt();
 		switch (input)
 		{
@@ -59,6 +60,12 @@ public class CustomerView
 					if (rs.next())
 					{
 						System.out.println("Ordered on " + rs.getTimestamp("tstmp") + "total of " + rs.getDouble("total"));
+						System.out.println("Do you want to reorder? 1: yes, 2 :no");
+						if (scanner.nextInt() == 1)
+						{
+							customerController.addFromOrder(oid);
+							customerController.fulfillOrder();
+						}
 					}
 					else
 					{
@@ -68,6 +75,17 @@ public class CustomerView
 				{
 					e.printStackTrace();
 				}
+				break;
+			case 4:
+				try
+				{
+					Main.EMART_CONNECTION.close();
+				} catch (SQLException e)
+				{
+					e.printStackTrace();
+				}
+				System.exit(0);
+				break;
 		}
 		mainMenu();
 	}
