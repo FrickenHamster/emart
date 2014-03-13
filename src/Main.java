@@ -46,6 +46,7 @@ public class Main
 			tableGen.createTables();
 			depotGen.createTables();
 			tableGen.seedValues();
+            depotGen.seedValues();
 			/*MartItemModel.printAll();
 			CustomerModel.printAll();*/
 			
@@ -57,11 +58,11 @@ public class Main
 			/*controller.addToCart("AA00101", 2, 122.22);
 			controller.addToCart("AA00401", 1, 1231.12);
 			controller.deleteCartItem("AA00301");
-			//view.displayCart();
+			view.displayCart();
 			controller.fulfillOrder();
 			controller.addToCart("AA00101", 3, 1111.1);
 			controller.fulfillOrder();
-			//SaleModel.printAll();
+			SaleModel.printAll();
 			ManagerController  mcon = new ManagerController(EMART_CONNECTION);
 			ManagerView mview = new ManagerView(mcon);
 			//mview.printSalesCategory("Laptop");

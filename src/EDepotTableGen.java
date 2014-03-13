@@ -66,8 +66,8 @@ public class EDepotTableGen
 					"stock_number char(7)," +
 					"amount integer not null," +
 					"primary key (ship_id, stock_number)," +
-					"foreign key (ship_id) references ShippingNotice (ship_id) on delete cascade," +
-					"foreign key (stock_number) references DepotItem (stock_number))";
+					"foreign key (ship_id) references ShippingNotice (ship_id) on delete cascade)";
+					//"foreign key (stock_number) references DepotItem (stock_number))";
 			try
 			{
 				Statement statement = connection.createStatement();
@@ -132,14 +132,18 @@ public class EDepotTableGen
 		depotItemModel.insert("AA00101", 2, 10, 1, 0, "A9", "HP", "6111");
 		depotItemModel.insert("AA00201", 3, 15, 2, 0, "A7", "Dell", "420");
 		depotItemModel.insert("AA00202", 4, 8, 2, 0, "B52", "Emachine", "3958");
-		depotItemModel.insert("AA00301", 4, 6, 3, 0, "C27", "Envision", "720");
+		depotItemModel.insert("AA00301", 4, 6, 3, 0, "C27", "HP", "720");
 		depotItemModel.insert("AA00302", 4, 6, 3, 0, "C13", "Samsung", "712");
 		depotItemModel.insert("AA00401", 7, 9, 5, 0, "D27", "Symantec", "2005");
 		depotItemModel.insert("AA00402", 7, 9, 5, 0, "D1", "Mcafee", "2005");
 		depotItemModel.insert("AA00501", 3, 5, 2, 0, "E7", "HP", "1320");
 		depotItemModel.insert("AA00601", 3, 9, 2, 0, "F9", "HP", "435");
 		depotItemModel.insert("AA00602", 3, 5, 2, 0, "F3", "Cannon", "738");
-		System.out.println("bob");
+
+        depotItemModel.insert("AA00902", 4,10,4,0, "Z1","Cannon", "718");
+        depotItemModel.insert("AA00903", 3, 10,4,0, "Z2","Cannon", "728");
+        depotItemModel.insert("AA00904", 3,10,4,0, "Z3","Cannon", "748");
+        depotItemModel.insert("AA00905", 3, 10,4,0, "Z4","Cannon", "758");
 		
 		ReplenishmentOrderModel replenishmentOrderModel = new ReplenishmentOrderModel(connection);
 		replenishmentOrderModel.setAll(100, "e");
@@ -152,11 +156,16 @@ public class EDepotTableGen
 		ShippingListedModel shippingListedModel = new ShippingListedModel(connection);
 		shippingListedModel.insert("AA00602",101,3);
 		WarehouseController warehouseController = new WarehouseController(connection);
-		DepotItemModel.printAll();
-		warehouseController.receiveShippingNotice(101);
-		DepotItemModel.printAll();
-		warehouseController.receiveShipment(101);
+	//	DepotItemModel.printAll();
+       /* System.out.println("wtf");
+        warehouseController.receiveShippingNotice(101);
 		
+		warehouseController.receiveShipment(101);
+		warehouseController.fillCustomerOrder(0);*/
+        shippingNoticeModel.insert(100, "fedex");
+        shippingListedModel.insert("z",100,2);
+        warehouseController.receiveShippingNotice(100);
+    //    DepotItemModel.printAll();
 	}
 	public void clearTables()
 	{
