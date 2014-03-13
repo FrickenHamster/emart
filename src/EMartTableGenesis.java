@@ -210,10 +210,11 @@ public class EMartTableGenesis
 		MartItemModel itemModel = new MartItemModel(connection);
 		OrderedItemModel orderedItemModel = new OrderedItemModel(connection);
 		DescriptionModel descriptionModel = new DescriptionModel(connection);
-		discountModel.insert("Gold", 10);
-		discountModel.insert("Silver", 5);
-		discountModel.insert("Green", 0);
-		discountModel.insert("New", 10);
+		discountModel.insert("Gold", .90);
+		discountModel.insert("Silver", .95);
+		discountModel.insert("Green", 1);
+		discountModel.insert("New", .9);
+		discountModel.insert("Shipping", 1.1);
 		CustomerModel model = new CustomerModel(connection);
 		
 		model.insert("Rhagrid", "Rhagrid", "Rubeus Hagrid", "rhagrid@cs", "123 MyStreet, Goleta apt A, Ca", "Gold", "FALSE");

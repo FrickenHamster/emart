@@ -55,7 +55,7 @@ public class Main
 			/*view.displayCart();
 			view.searchStockNumber("AA00101");
 			view.searchCategory("Desktop");*/
-			controller.addToCart("AA00101", 2, 122.22);
+			/*controller.addToCart("AA00101", 2, 122.22);
 			controller.addToCart("AA00401", 1, 1231.12);
 			controller.deleteCartItem("AA00301");
 			view.displayCart();
@@ -65,12 +65,30 @@ public class Main
 			SaleModel.printAll();
 			ManagerController  mcon = new ManagerController(EMART_CONNECTION);
 			ManagerView mview = new ManagerView(mcon);
-			mview.printSalesProduct("AA00101");
-			/*CustomerModel.printAll();
+			//mview.printSalesCategory("Laptop");
+			*//*CustomerModel.printAll();
 			mcon.changeCustomerStatus("Rhagrid", "New");
-			CustomerModel.printAll();*/
-			
-		//	SaleModel.printAll();
+			CustomerModel.printAll();*//*
+			SaleModel saleModel = new SaleModel(EMART_CONNECTION);
+			OrderedItemModel orderModel = new OrderedItemModel(EMART_CONNECTION);
+			CustomerModel.printAll();
+			saleModel.insert(5, "Mhooch", 1, new Timestamp(2), 4, 4);
+			saleModel.insert(7, "Mhooch", 1, new Timestamp(1), 4, 4);
+			saleModel.insert(8, "Mhooch", 1, new Timestamp(3), 4, 4);
+			saleModel.insert(65, "Mhooch", 1, new Timestamp(4), 4, 4);
+			saleModel.insert(62, "Mhooch", 100, new Timestamp(6), 4, 4);
+			saleModel.insert(16, "Mhooch", 100, new Timestamp(8), 4, 4);
+			//mcon.getMostCustomerSales();
+			CustomerController cc = new CustomerController(EMART_CONNECTION, "Mhooch");
+			cc.checkStatus();
+			cc.fulfillOrder();
+			CustomerModel.printAll();
+			view.searchModelNumber("6111");*/
+			/*
+			SaleModel.printAll();
+			mcon.deleteNotNeededSale();
+			System.out.println("__________");
+			SaleModel.printAll();*/
 		}
 		else
 		{
