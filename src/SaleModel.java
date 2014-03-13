@@ -15,24 +15,27 @@ public class SaleModel
 	private String customerIdentifier;
 	private double total;
 	private Timestamp date;
-
+	private int month;
+	private int year;
 
 	public SaleModel(Connection connection)
 	{
 		this.connection = connection;
 	}
 
-	public void setAll(int saleNumber, String customerIdentifier, double total, Timestamp date)
+	public void setAll(int saleNumber, String customerIdentifier, double total, Timestamp date, int month, int year)
 	{
 		this.saleNumber = saleNumber;
 		this.customerIdentifier = customerIdentifier;
 		this.total = total;
 		this.date = date;
+		this.month = month;
+		this.year = year;
 	}
 
-	public void insert(int saleNumber, String customerIdentifier, double total, Timestamp date)
+	public void insert(int saleNumber, String customerIdentifier, double total, Timestamp date, int month, int year)
 	{
-		setAll(saleNumber, customerIdentifier, total, date);
+		setAll(saleNumber, customerIdentifier, total, date, month, year);
 		insert();
 	}
 
@@ -40,12 +43,14 @@ public class SaleModel
 	{
 		try
 		{
-			String insertString = "insert into sale values(?, ?, ?, ?)";
+			String insertString = "insert into sale values(?, ?, ?, ?, ?, ?)";
 			PreparedStatement insStmt = connection.prepareStatement(insertString);
 			insStmt.setInt(1, saleNumber);
 			insStmt.setString(2, customerIdentifier);
 			insStmt.setDouble(3, total);
 			insStmt.setTimestamp(4, date);
+			insStmt.setInt(5, month);
+			insStmt.setInt(6,year);
 			insStmt.executeUpdate();
 		} catch (SQLException e)
 		{
@@ -115,7 +120,7 @@ public class SaleModel
 			while (rs.next())
 			{
 				System.out.println("Order:");
-				System.out.println(rs.getString("order_id") + " | " + rs.getString("cid") + " | " + rs.getDouble("total") + " | " + rs.getTimestamp("order_date"));
+				System.out.println(rs.getString("order_id") + " | " + rs.getString("cid") + " | " + rs.getDouble("total") + " | " + rs.getTimestamp("tstmp"));
 				System.out.println("ordered items:");
 				PreparedStatement desstmt = Main.EMART_CONNECTION.prepareStatement("select * from ordereditem where order_id = ?");
 				desstmt.setString(1, rs.getString("order_id"));

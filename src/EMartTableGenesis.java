@@ -135,6 +135,7 @@ public class EMartTableGenesis
 					"cid char(20)," +
 					"stock_number char(7)," +
 					"amount integer not null," +
+					"price real not null," +
 					"primary key (cid, stock_number)," +
 					"foreign key (cid) references customer(cid) on delete cascade," +
 					"foreign key (stock_number) references martitem(stock_number) on delete cascade)";
@@ -157,7 +158,9 @@ public class EMartTableGenesis
 					"order_id integer," +
 					"cid char(20)," +
 					"total real not null," +
-					"order_date timestamp not null," +
+					"tstmp timestamp not null," +
+					"order_month integer not null," +
+					"order_year integer not null," +
 					"primary key(order_id))";
 			try
 			{
@@ -288,6 +291,8 @@ public class EMartTableGenesis
         itemModel.insert("AA00903", "Camera", 339.99, 3, "Cannon", "728");
         itemModel.insert("AA00904", "Camera", 429.99, 3, "Cannon", "748");
         itemModel.insert("AA00905", "Camera", 629.99, 3, "Cannon", "758");
+		cartItemModel.insert("Rhagrid", "AA00101", 3, 123.11);
+		cartItemModel.insert("Rhagrid", "AA00301", 2, 200.00);
 		
 		saleModel.insert(0, "Rhagrid", 200, new Timestamp(123123123));
 		orderedItemModel.insert(0, "AA00902", 600, 2);
