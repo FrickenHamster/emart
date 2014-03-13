@@ -54,15 +54,20 @@ public class Main
 			/*view.displayCart();
 			view.searchStockNumber("AA00101");
 			view.searchCategory("Desktop");*/
-			controller.addToCart("AA00101", 2);
-			controller.addToCart("AA00401", 1);
+			controller.addToCart("AA00101", 2, 122.22);
+			controller.addToCart("AA00401", 1, 1231.12);
 			controller.deleteCartItem("AA00301");
 			view.displayCart();
 			controller.fulfillOrder();
-			
-			ManagerView mview = new ManagerView(new ManagerController(EMART_CONNECTION));
-			mview.printSalesProduct("AA00401");
+			controller.addToCart("AA00101", 3, 1111.1);
+			controller.fulfillOrder();
 			SaleModel.printAll();
+			ManagerController  mcon = new ManagerController(EMART_CONNECTION);
+			ManagerView mview = new ManagerView(mcon);
+			mview.printSalesProduct("AA00101");
+			/*CustomerModel.printAll();
+			mcon.changeCustomerStatus("Rhagrid", "New");
+			CustomerModel.printAll();*/
 		}
 		else
 		{

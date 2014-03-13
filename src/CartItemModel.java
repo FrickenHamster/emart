@@ -32,7 +32,7 @@ public class CartItemModel
 	
 	public void insert(String customerIdentifier, String stockNumber, int amount, double price)
 	{
-		setAll(customerIdentifier, stockNumber, amount);	
+		setAll(customerIdentifier, stockNumber, amount, price);	
 		insert();
 	}
 	
@@ -40,11 +40,12 @@ public class CartItemModel
 	{
 		try
 		{
-			String insertString = "insert into cartitem values(?, ?, ?)";
+			String insertString = "insert into cartitem values(?, ?, ?, ?)";
 			PreparedStatement insStmt = connection.prepareStatement(insertString);
 			insStmt.setString(1, customerIdentifier);
 			insStmt.setString(2, stockNumber);
 			insStmt.setInt(3, amount);
+			insStmt.setDouble(4, price);
 			insStmt.executeUpdate();
 		} catch (SQLException e)
 		{
@@ -100,5 +101,15 @@ public class CartItemModel
 	public int getAmount()
 	{
 		return amount;
+	}
+
+	public double getPrice()
+	{
+		return price;
+	}
+
+	public void setPrice(double price)
+	{
+		this.price = price;
 	}
 }
