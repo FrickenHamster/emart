@@ -50,7 +50,7 @@ public class CustomerController
 		if (cartModel.load(customerIdentifier, stockNumber))
 		{
 			cartModel.setAmount(cartModel.getAmount() + amount);
-			
+
 			cartModel.update();
 			System.out.println(cartModel.getAmount());
 		} else
@@ -59,7 +59,7 @@ public class CustomerController
 			cartModel.insert();
 		}
 	}
-	
+
 	public void deleteCartItem(String stockNumber)
 	{
 		try
@@ -129,6 +129,34 @@ public class CustomerController
 		return null;
 	}
 
+	public ResultSet getManufacturerSearch(String manufacturer)
+	{
+		try
+		{
+			PreparedStatement stmt = connection.prepareStatement("select * from martitem where trim(manufacturer) = trim(?)");
+			stmt.setString(1, manufacturer);
+			return stmt.executeQuery();
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public ResultSet getModelNumberSearch(String modelNumber)
+	{
+		try
+		{
+			PreparedStatement stmt = connection.prepareStatement("select * from martitem where trim(model_number) = trim(?)");
+			stmt.setString(1, modelNumber);
+			return stmt.executeQuery();
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	public String getCustomerIdentifier()
 	{
 		return customerIdentifier;
@@ -155,7 +183,7 @@ public class CustomerController
 
 	public void fulfillOrder()
 	{
-		
+
 		try
 		{
 			PreparedStatement stmt = connection.prepareStatement("select sum(i.price * c.amount * d.percent) as total " +
@@ -180,7 +208,7 @@ public class CustomerController
 			int ordnum = getNextOrderId();
 			System.out.println(ordnum);
 			Calendar cal = Calendar.getInstance();
-			saleModel.setAll(ordnum, customerIdentifier, total, new Timestamp(new Date().getTime()), cal.get(Calendar.MONTH),cal.get(Calendar.YEAR));
+			saleModel.setAll(ordnum, customerIdentifier, total, new Timestamp(new Date().getTime()), cal.get(Calendar.MONTH), cal.get(Calendar.YEAR));
 			saleModel.insert();
 			cartresult = getCartItems();
 			OrderedItemModel orderModel = new OrderedItemModel(connection);
@@ -188,11 +216,11 @@ public class CustomerController
 			{
 				PreparedStatement pstmt = connection.prepareStatement("select (price * ?) as total from martitem where stock_number = ?");
 				pstmt.setInt(1, cartresult.getInt("amount"));
-				
+
 				pstmt.setString(2, cartresult.getString("stock_number"));
 				ResultSet prs = pstmt.executeQuery();
 				prs.next();
-				
+
 				orderModel.setAll(ordnum, cartresult.getString("stock_number"), prs.getDouble("total"), cartresult.getInt("amount"));
 				orderModel.insert();
 			}
@@ -202,8 +230,8 @@ public class CustomerController
 			e.printStackTrace();
 		}
 	}
-	
-	
+
+
 	public void checkStatus()
 	{
 		try
@@ -211,10 +239,10 @@ public class CustomerController
 			PreparedStatement stmt = connection.prepareStatement("select sum(s1.total) as total from sale s1 " +
 					"where trim(s1.cid) = trim(?) " +
 					"and (select count (s2.order_id) " +
-							"from sale s2 " +
-							"where s2.tstmp > s1.tstmp " +
-							"and s1.cid = s2.cid ) < 3 ");
-			
+					"from sale s2 " +
+					"where s2.tstmp > s1.tstmp " +
+					"and s1.cid = s2.cid ) < 3 ");
+
 			stmt.setString(1, customerIdentifier);
 			ResultSet rs = stmt.executeQuery();
 			rs.next();
@@ -222,12 +250,10 @@ public class CustomerController
 			if (sum < 100)
 			{
 				setStatus("Green");
-			}
-			else if (sum < 500)
+			} else if (sum < 500)
 			{
 				setStatus("Silver");
-			}
-			else
+			} else
 			{
 				setStatus("Gold");
 			}
@@ -236,7 +262,7 @@ public class CustomerController
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void setStatus(String status)
 	{
 		currentModel.setStatus(status);

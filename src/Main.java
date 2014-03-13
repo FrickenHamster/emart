@@ -54,7 +54,7 @@ public class Main
 			/*view.displayCart();
 			view.searchStockNumber("AA00101");
 			view.searchCategory("Desktop");*/
-			controller.addToCart("AA00101", 2, 122.22);
+			/*controller.addToCart("AA00101", 2, 122.22);
 			controller.addToCart("AA00401", 1, 1231.12);
 			controller.deleteCartItem("AA00301");
 			//view.displayCart();
@@ -65,9 +65,9 @@ public class Main
 			ManagerController  mcon = new ManagerController(EMART_CONNECTION);
 			ManagerView mview = new ManagerView(mcon);
 			//mview.printSalesCategory("Laptop");
-			/*CustomerModel.printAll();
+			*//*CustomerModel.printAll();
 			mcon.changeCustomerStatus("Rhagrid", "New");
-			CustomerModel.printAll();*/
+			CustomerModel.printAll();*//*
 			SaleModel saleModel = new SaleModel(EMART_CONNECTION);
 			OrderedItemModel orderModel = new OrderedItemModel(EMART_CONNECTION);
 			CustomerModel.printAll();
@@ -82,6 +82,7 @@ public class Main
 			cc.checkStatus();
 			cc.fulfillOrder();
 			CustomerModel.printAll();
+			view.searchModelNumber("6111");*/
 			/*
 			SaleModel.printAll();
 			mcon.deleteNotNeededSale();
