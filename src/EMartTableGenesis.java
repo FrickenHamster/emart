@@ -282,10 +282,6 @@ public class EMartTableGenesis
 		descriptionModel.insert("AA00602", "Weight", "24.7 lb");
 		accessoryModel.insert("AA00602", "AA00201");
 		accessoryModel.insert("AA00602", "AA00202");
-		
-		cartItemModel.insert("Rhagrid", "AA00101", 3);
-		cartItemModel.insert("Rhagrid", "AA00301", 2);
-
         //items inserted to test checkstocklevels
         itemModel.insert("AA00902", "Camera", 300, 3, "Cannon", "718");
         itemModel.insert("AA00903", "Camera", 339.99, 3, "Cannon", "728");
@@ -294,7 +290,7 @@ public class EMartTableGenesis
 		cartItemModel.insert("Rhagrid", "AA00101", 3, 123.11);
 		cartItemModel.insert("Rhagrid", "AA00301", 2, 200.00);
 		
-		saleModel.insert(0, "Rhagrid", 200, new Timestamp(123123123));
+		saleModel.insert(0, "Rhagrid", 200, new Timestamp(123123123), 1 , 3);
 		orderedItemModel.insert(0, "AA00902", 600, 2);
 		
 	}

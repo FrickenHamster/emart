@@ -11,7 +11,6 @@ public class WarehouseController {
     }
 
     public void receiveShippingNotice(int shipid) {
-
         try {
             PreparedStatement statement = connection.prepareStatement("select stock_number, amount from ShippingListed where ship_id = ?");
             statement.setInt(1, shipid);
@@ -19,7 +18,7 @@ public class WarehouseController {
             ResultSet rs = statement.executeQuery();
             DepotItemModel depotItemModel = new DepotItemModel(connection);
             while (rs.next()) {
-                System.out.println("in shit");
+                System.out.println("--in receiveShippingNotice");
                 if (depotItemModel.load(rs.getString("stock_number"))) {
                     System.out.println("old replenish = " + depotItemModel.getReplenish());
 
@@ -28,19 +27,31 @@ public class WarehouseController {
                     depotItemModel.update();
                     System.out.println("amount = " + rs.getInt("amount"));
                     System.out.println("new replenish = " + depotItemModel.getReplenish());
-
-
                 } else {
-                    //TODO insert stock_num
+                    insertStockNumber(rs.getString("stock_number"));
                 }
             }
-        } catch (SQLException e) {
+        } catch (SQLException e) 
+        {
             e.printStackTrace();
         }
-
-
+        System.out.println("--receiveShippingNotice END");
     }
-
+    public void insertStockNumber(String stockNumber)
+    {
+        try
+        {
+            PreparedStatement stmt = connection.prepareStatement("insert ");
+            stmt.setString(1, stockNumber);
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next())
+                
+                     
+        }catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
     public void receiveShipment(int shipid) {
         try {
             PreparedStatement stmt = connection.prepareStatement("select stock_number, amount from ShippingListed where ship_id = ?");
@@ -123,19 +134,21 @@ public class WarehouseController {
     public void checkStockLevels() {
         System.out.println("checkstocklevels *****************");
         try {
-            PreparedStatement stmt = connection.prepareStatement("select mname from DepotItem");
+            PreparedStatement stmt = connection.prepareStatement("select unique mname from DepotItem");
 
             ResultSet rs = stmt.executeQuery();
 
             //int number;
             while (rs.next()) {
-                PreparedStatement sstmt = connection.prepareStatement("select count(stock_number) as numcount from DepotItem where quantity < min_stock and trim(mname) = ?");
+                PreparedStatement sstmt = connection.prepareStatement("select count(stock_number) as numcount " +
+                        "from DepotItem " +
+                        "where quantity < min_stock and trim(mname) = trim(?)");
                 sstmt.setString(1, rs.getString("mname"));
                 ResultSet srs = sstmt.executeQuery();
                 if (srs.next()) {
                     //System.out.println();
                     System.out.println("mname: " + rs.getString("mname") + "; number: " + srs.getInt("numcount") + "; stock_number: ");
-
+                    
                     if (srs.getInt("numcount") >= 3) 
                     {
                         
@@ -150,9 +163,9 @@ public class WarehouseController {
     }
 
     public void sendReplenishmentOrder(String mname) {
-        System.out.println("SendReplenishmentOrder---------huzzah");
+        System.out.println("SendReplenishmentOrder---------" + mname);
         try {
-            PreparedStatement stmt = connection.prepareStatement("select stock_number, quantity, max_stock from DepotItem where trim(mname) = ?");
+            PreparedStatement stmt = connection.prepareStatement("select stock_number, quantity, max_stock from DepotItem where trim(mname) = trim(?)");
             stmt.setString(1, mname);
             ResultSet rs = stmt.executeQuery();
             DepotItemModel depotItemModel = new DepotItemModel(connection);
@@ -165,10 +178,10 @@ public class WarehouseController {
                 //    if(depotItemModel.load(rs.getString("stock_number")))
                 //   {
                 int difference = rs.getInt("max_stock") - rs.getInt("quantity");
-                System.out.println(difference);
+                System.out.println("difference: " + difference);
 
                 if (difference > 0) {
-
+                    System.out.println("inserted: " + rs.getString("stock_number"));
                     shippingListedModel.insert(rs.getString("stock_number"), id, difference);
                     //warehouse sends request to manufacturer/manufacturer sends shipping notice
                 }
@@ -185,7 +198,7 @@ public class WarehouseController {
 
     public int getShipId() {
         try {
-            PreparedStatement stmt = connection.prepareStatement("select max(order_id) as maxid from ShippingNotice");
+            PreparedStatement stmt = connection.prepareStatement("select max(ship_id) as maxid from ShippingNotice");
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 int maxid = rs.getInt("maxid") + 1;
