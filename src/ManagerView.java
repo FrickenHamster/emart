@@ -22,7 +22,9 @@ public class ManagerView
 	
 	public void printSalesCategory(String category)
 	{
-		
+		AmountPrice ap = controller.getSaleCategory(category);
+		System.out.println("Total sold for " + category + " is " + ap.amount + " total price: " + ap.price);
+
 	}
 	
 	
