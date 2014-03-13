@@ -1,4 +1,5 @@
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -157,12 +158,24 @@ public class CustomerController
 		
 		try
 		{
-			PreparedStatement stmt = connection.prepareStatement("select sum(i.price * c.amount) as total from martitem i join cartitem c on i.stock_number = c.stock_number where trim(c.cid) = ?");
-			stmt.setString(1, customerIdentifier);
+			PreparedStatement stmt = connection.prepareStatement("select sum(i.price * c.amount * d.percent) as total " +
+					" from martitem i " +
+					"join cartitem c on i.stock_number = c.stock_number " +
+					"join discount d on d.status = ? " +
+					"where trim(c.cid) = ? ");
+			stmt.setString(1, currentModel.getStatus());
+			stmt.setString(2, customerIdentifier);
 			ResultSet cartresult = stmt.executeQuery();
 			cartresult.next();
 			double total = cartresult.getDouble("total");
-			
+			System.out.println(total + currentModel.getStatus());
+			if (total <= 100)
+			{
+				stmt = connection.prepareStatement("select percent from discount where status = 'Shipping'");
+				ResultSet srs = stmt.executeQuery();
+				srs.next();
+				total *= srs.getDouble("percent");
+			}
 			SaleModel saleModel = new SaleModel(connection);
 			int ordnum = getNextOrderId();
 			System.out.println(ordnum);
@@ -180,8 +193,6 @@ public class CustomerController
 				ResultSet prs = pstmt.executeQuery();
 				prs.next();
 				
-				
-				
 				orderModel.setAll(ordnum, cartresult.getString("stock_number"), prs.getDouble("total"), cartresult.getInt("amount"));
 				orderModel.insert();
 			}
@@ -190,6 +201,46 @@ public class CustomerController
 		{
 			e.printStackTrace();
 		}
+	}
+	
+	
+	public void checkStatus()
+	{
+		try
+		{
+			PreparedStatement stmt = connection.prepareStatement("select sum(s1.total) as total from sale s1 " +
+					"where trim(s1.cid) = trim(?) " +
+					"and (select count (s2.order_id) " +
+							"from sale s2 " +
+							"where s2.tstmp > s1.tstmp " +
+							"and s1.cid = s2.cid ) < 3 ");
+			
+			stmt.setString(1, customerIdentifier);
+			ResultSet rs = stmt.executeQuery();
+			rs.next();
+			double sum = rs.getDouble("total");
+			if (sum < 100)
+			{
+				setStatus("Green");
+			}
+			else if (sum < 500)
+			{
+				setStatus("Silver");
+			}
+			else
+			{
+				setStatus("Gold");
+			}
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	public void setStatus(String status)
+	{
+		currentModel.setStatus(status);
+		currentModel.update();
 	}
 
 }

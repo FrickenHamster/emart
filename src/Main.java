@@ -70,17 +70,23 @@ public class Main
 			CustomerModel.printAll();*/
 			SaleModel saleModel = new SaleModel(EMART_CONNECTION);
 			OrderedItemModel orderModel = new OrderedItemModel(EMART_CONNECTION);
-			saleModel.insert(5, "Mhooch", 13059.99, new Timestamp(2), 4, 4);
-			saleModel.insert(7, "Mhooch", 13059.99, new Timestamp(1), 4, 4);
-			saleModel.insert(8, "Mhooch", 13059.99, new Timestamp(3), 4, 4);
-			saleModel.insert(6, "Mhooch", 13059.99, new Timestamp(4), 4, 4);
-			saleModel.insert(6, "Mhooch", 13059.99, new Timestamp(4), 4, 4);
-			saleModel.insert(6, "Mhooch", 13059.99, new Timestamp(4), 4, 4);
+			CustomerModel.printAll();
+			saleModel.insert(5, "Mhooch", 1, new Timestamp(2), 4, 4);
+			saleModel.insert(7, "Mhooch", 1, new Timestamp(1), 4, 4);
+			saleModel.insert(8, "Mhooch", 1, new Timestamp(3), 4, 4);
+			saleModel.insert(65, "Mhooch", 1, new Timestamp(4), 4, 4);
+			saleModel.insert(62, "Mhooch", 100, new Timestamp(6), 4, 4);
+			saleModel.insert(16, "Mhooch", 100, new Timestamp(8), 4, 4);
 			//mcon.getMostCustomerSales();
+			CustomerController cc = new CustomerController(EMART_CONNECTION, "Mhooch");
+			cc.checkStatus();
+			cc.fulfillOrder();
+			CustomerModel.printAll();
+			/*
 			SaleModel.printAll();
 			mcon.deleteNotNeededSale();
 			System.out.println("__________");
-			SaleModel.printAll();
+			SaleModel.printAll();*/
 		}
 		else
 		{

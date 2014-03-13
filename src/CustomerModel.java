@@ -42,13 +42,33 @@ public class CustomerModel
 		this.customerIdentifier = customerIdentifier;
 		try
 		{
-			PreparedStatement stmt = connection.prepareStatement("select * from customer where cid = ?");
+			PreparedStatement stmt = connection.prepareStatement("select * from customer where trim(cid) = trim(?)");
 			stmt.setString(1, customerIdentifier);
 			ResultSet rs = stmt.executeQuery();
 			if (rs.next())
 			{
-				setAll(rs.getString("cid"), rs.getString("password"), rs.getString("customer_name"), rs.getString("email"), rs.getString("address"), rs.getString("status"), rs.getString("manager"));
+				setAll(rs.getString("cid"), rs.getString("password"), rs.getString("customer_name"), rs.getString("email"), rs.getString("address"), rs.getString("status"), rs.getString("is_manager"));
 			}
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	public void update()
+	{
+		try
+		{
+			PreparedStatement stmt = connection.prepareStatement("update customer set " +
+					" password = ?, customer_name = ?, email = ?, address = ?, status = ?, is_manager = ? where trim(cid) = trim(?)");
+			stmt.setString(1, password);
+			stmt.setString(2, name);
+			stmt.setString(3, email);
+			stmt.setString(4, address);
+			stmt.setString(5, status);
+			stmt.setString(6, manager);
+			stmt.setString(7, customerIdentifier);
+			stmt.executeUpdate();
 		} catch (SQLException e)
 		{
 			e.printStackTrace();
@@ -112,5 +132,15 @@ public class CustomerModel
 	public String getCustomerIdentifier()
 	{
 		return customerIdentifier;
+	}
+
+	public String getStatus()
+	{
+		return status;
+	}
+
+	public void setStatus(String status)
+	{
+		this.status = status;
 	}
 }
