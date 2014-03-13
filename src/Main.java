@@ -46,6 +46,7 @@ public class Main
 			tableGen.createTables();
 			depotGen.createTables();
 			tableGen.seedValues();
+            depotGen.seedValues();
 			/*MartItemModel.printAll();
 			CustomerModel.printAll();*/
 			
@@ -57,7 +58,7 @@ public class Main
 			view.displayCart();
 			controller.fulfillOrder();
 			
-			SaleModel.printAll();
+		//	SaleModel.printAll();
 		}
 		else
 		{

@@ -39,7 +39,7 @@ public class OrderedItemModel
 	{
 		try
 		{
-			String insertString = "insert into ordereditem values(?, ?, ?, ?)";
+			String insertString = "insert into OrderedItem values(?, ?, ?, ?)";
 			PreparedStatement insStmt = connection.prepareStatement(insertString);
 			insStmt.setInt(1, orderNumber);
 			insStmt.setString(2, stockNumber);

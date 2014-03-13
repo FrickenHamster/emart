@@ -67,7 +67,7 @@ public class DepotItemModel
 			PreparedStatement stmt = connection.prepareStatement("update DepotItem set stock_number = ?, quantity = ?, max_stock = ?, min_stock = ?, replenish = ?, location = ?, mname = ?, model_number = ? where stock_number = ?");
 			stmt.setString(1, stockNumber);
 			stmt.setInt(2, quantity);
-			System.out.println(quantity);
+			System.out.println("here i printed the current quantity yay: " + quantity);
 			stmt.setInt(3, maxStock);
 			stmt.setInt(4, minStock);
 			stmt.setInt(5, replenish);
