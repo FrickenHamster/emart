@@ -278,6 +278,8 @@ public class CustomerController
 			clearCart();
 			
 			checkStatus();
+			WarehouseController wcon = new WarehouseController(connection);
+			wcon.fillCustomerOrder(ordnum);
 		} catch (SQLException e)
 		{
 			e.printStackTrace();

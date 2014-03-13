@@ -135,6 +135,8 @@ public class ManagerController
 			inModel.setAll(replenishid, replenishStockNumbers.get(i), replenishAmount.get(i));
 			inModel.insert();
 		}
+		WarehouseController wcon = new WarehouseController(connection);
+		wcon.receiveShippingNotice(replenishid);
 	}
 	
 	public void deleteNotNeededSale()

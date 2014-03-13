@@ -121,6 +121,10 @@ public class Main
 				e.printStackTrace();
 			}
 		}
+        else if (args.length > 0 && args[0].equals( "warehouse"))
+        {
+            WarehouseView wview = new WarehouseView(new WarehouseController(EMART_CONNECTION));
+        }
 		else
 		{
 			tableGen = new EMartTableGenesis(EMART_CONNECTION);
