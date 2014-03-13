@@ -1,3 +1,4 @@
+import javax.xml.transform.Result;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -101,11 +102,31 @@ public class CustomerController
 		return null;
 	}
 
-	public ResultSet getStockNumberSearch(String stockNumber)
+	public ResultSet getDescriptionSearch(String attribute, String value)
 	{
 		try
 		{
-			PreparedStatement stmt = connection.prepareStatement("select * from martitem where trim(stock_number) = ?");
+			PreparedStatement stmt = connection.prepareStatement("select * from martitem i " +
+					"join description d on d.stock_number = i.stock_number " +
+					"where trim(d.attribute) = trim(?) " +
+					"and trim(d.attribute_value) = trim(?)");
+			stmt.setString(1, attribute);
+			stmt.setString(2, value);
+			return stmt.executeQuery();
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public ResultSet getAccessorySearch(String stockNumber)
+	{
+		try
+		{
+			PreparedStatement stmt = connection.prepareStatement("select parent_stock_number from martitem i " +
+					"join accessory a on i.stock_number = a.child_stock_number " +
+					"where trim(i.stock_number) = trim(?) ");
 			stmt.setString(1, stockNumber);
 			return stmt.executeQuery();
 		} catch (SQLException e)
@@ -149,6 +170,20 @@ public class CustomerController
 		{
 			PreparedStatement stmt = connection.prepareStatement("select * from martitem where trim(model_number) = trim(?)");
 			stmt.setString(1, modelNumber);
+			return stmt.executeQuery();
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public ResultSet getOrderSearch(int orderId)
+	{
+		try
+		{
+			PreparedStatement stmt = connection.prepareStatement("select * from sale where trim(order_id) = trim(?)");
+			stmt.setInt(1, orderId);
 			return stmt.executeQuery();
 		} catch (SQLException e)
 		{
@@ -225,6 +260,8 @@ public class CustomerController
 				orderModel.insert();
 			}
 			clearCart();
+			
+			checkStatus();
 		} catch (SQLException e)
 		{
 			e.printStackTrace();

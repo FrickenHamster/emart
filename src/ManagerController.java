@@ -1,4 +1,5 @@
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
@@ -10,10 +11,14 @@ import java.util.Calendar;
 public class ManagerController
 {
 	private Connection connection;
+	private ArrayList<String> replenishStockNumbers;
+	private ArrayList<Integer> replenishAmount;
 
 	public ManagerController(Connection connection)
 	{
 		this.connection = connection;
+		replenishStockNumbers = new ArrayList<String>();
+		replenishAmount = new ArrayList<Integer>();
 	}
 
 	public void changePrice(String stockNumber, double price)
@@ -111,6 +116,12 @@ public class ManagerController
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public void addToReplenishmentOrder(String stockNumber, int amount)
+	{
+		replenishStockNumbers.add(stockNumber);
+		replenishAmount.add(amount);
 	}
 	
 	public void deleteNotNeededSale()

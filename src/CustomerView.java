@@ -12,6 +12,7 @@ public class CustomerView
 {
 	private CustomerController customerController;
 	private ArrayList<String> searchResult;
+	private ArrayList<Double> searchPrices;
 	private Scanner scanner;
 	
 	public CustomerView(CustomerController customerController)
@@ -19,6 +20,7 @@ public class CustomerView
 		this.customerController = customerController;
 		System.out.println("Welcome Customer " + customerController.getCustomerIdentifier());
 		searchResult = new ArrayList<String>();
+		searchPrices = new ArrayList<Double>();
 		scanner = new Scanner(System.in);
 		mainMenu();
 	}
@@ -28,6 +30,7 @@ public class CustomerView
 		System.out.println("What would you like to do?");
 		System.out.println("1:search");
 		System.out.println("2:view shopping cart");
+		System.out.println("3:Look up order");
 		int input = scanner.nextInt();
 		switch (input)
 		{
@@ -35,9 +38,38 @@ public class CustomerView
 				searchMenu();
 				break;
 			case 2:
-				
+				displayCart();
+				System.out.println("Would you like to 1: check out, or 2:remove item, or 0:nothing");
+				int in2 = scanner.nextInt();
+				if (in2 == 1)
+				{
+					customerController.fulfillOrder();
+				}
+				else if (in2 == 2)
+				{
+					removeItemMenu();
+				}
 				break;
+			case 3:
+				System.out.println("Which orderid?");
+				int oid = scanner.nextInt();
+				ResultSet rs = customerController.getOrderSearch(oid);
+				try
+				{
+					if (rs.next())
+					{
+						System.out.println("Ordered on " + rs.getTimestamp("tstmp") + "total of " + rs.getDouble("total"));
+					}
+					else
+					{
+						System.out.println("order not found");
+					}
+				} catch (SQLException e)
+				{
+					e.printStackTrace();
+				}
 		}
+		mainMenu();
 	}
 	
 	public void searchMenu()
@@ -47,6 +79,8 @@ public class CustomerView
 		System.out.println("2:Category");
 		System.out.println("3:Manufactuer");
 		System.out.println("4:Model Number");
+		System.out.println("5:Description");
+		System.out.println("6:Accessory");
 		int input = scanner.nextInt();
 		switch (input)
 		{
@@ -68,6 +102,28 @@ public class CustomerView
 				System.out.println("input Model Number");
 				searchModelNumber(scanner.next());
 				break;
+			case 5:
+				System.out.println("input Attribute");
+				scanner.nextLine();
+				String att = scanner.nextLine();
+				System.out.println(att);
+				System.out.println("input Value");
+				String val = scanner.nextLine();
+				searchDescription(att, val);
+				break;
+			case 6:
+				System.out.println("Input stock Number");
+				searchAccessory(scanner.next());
+		}
+		if (searchResult.size() > 0)
+		{
+			System.out.println("Add which item to cart? 0 for nope");
+			int nn = scanner.nextInt();
+			if (nn!= 0)
+			{
+				System.out.println("How many?");
+				addItemToCart(nn, scanner.nextInt());
+			}
 		}
 		mainMenu();
 	}
@@ -77,6 +133,7 @@ public class CustomerView
 	{
 		ResultSet rs = customerController.searchStockNumber(stockNumber);
 		searchResult.clear();
+		searchPrices.clear();
 		try
 		{
 			int nn = 1;
@@ -84,6 +141,7 @@ public class CustomerView
 			{
 				System.out.println(nn + ":  " +rs.getString( "stock_number") + " | " + rs.getInt("warranty") + " | " + rs.getDouble("price") + " | " + rs.getString("category") + " | " + rs.getString("manufacturer") + " | " + rs.getString("model_number"));
 				searchResult.add(rs.getString("stock_number"));
+				searchPrices.add(rs.getDouble("price"));
 				nn++;
 			}
 		} catch (SQLException e)
@@ -92,11 +150,18 @@ public class CustomerView
 		}
 	}
 	
+	public void removeItemMenu()
+	{
+		System.out.println("Which stock number to remove?");
+		String input = scanner.next();
+		customerController.deleteCartItem(input);
+	}
 
 	public void searchCategory(String category)
 	{
 		ResultSet rs = customerController.getCategorySearch(category);
 		searchResult.clear();
+		searchPrices.clear();
 		try
 		{
 			int nn = 1;
@@ -104,6 +169,7 @@ public class CustomerView
 			{
 				System.out.println(nn + ":  " +rs.getString( "stock_number") + " | " + rs.getInt("warranty") + " | " + rs.getDouble("price") + " | " + rs.getString("category") + " | " + rs.getString("manufacturer") + " | " + rs.getString("model_number"));
 				searchResult.add(rs.getString("stock_number"));
+				searchPrices.add(rs.getDouble("price"));
 				nn++;
 			}
 		} catch (SQLException e)
@@ -116,6 +182,7 @@ public class CustomerView
 	{
 		ResultSet rs = customerController.getManufacturerSearch(manufacturer);
 		searchResult.clear();
+		searchPrices.clear();
 		try
 		{
 			int nn = 1;
@@ -123,6 +190,7 @@ public class CustomerView
 			{
 				System.out.println(nn + ":  " +rs.getString( "stock_number") + " | " + rs.getInt("warranty") + " | " + rs.getDouble("price") + " | " + rs.getString("category") + " | " + rs.getString("manufacturer") + " | " + rs.getString("model_number"));
 				searchResult.add(rs.getString("stock_number"));
+				searchPrices.add(rs.getDouble("price"));
 				nn++;
 			}
 		} catch (SQLException e)
@@ -135,6 +203,7 @@ public class CustomerView
 	{
 		ResultSet rs = customerController.getModelNumberSearch(modelNumber);
 		searchResult.clear();
+		searchPrices.clear();
 		try
 		{
 			int nn = 1;
@@ -143,6 +212,51 @@ public class CustomerView
 			{
 				System.out.println(nn + ":  " +rs.getString( "stock_number") + " | " + rs.getInt("warranty") + " | " + rs.getDouble("price") + " | " + rs.getString("category") + " | " + rs.getString("manufacturer") + " | " + rs.getString("model_number"));
 				searchResult.add(rs.getString("stock_number"));
+				searchPrices.add(rs.getDouble("price"));
+				nn++;
+			}
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+	public void searchDescription(String description, String value)
+	{
+		ResultSet rs = customerController.getDescriptionSearch(description, value);
+		searchResult.clear();
+		searchPrices.clear();
+		try
+		{
+			int nn = 1;
+			System.out.println("search result:");
+			while(rs.next())
+			{
+				System.out.println(nn + ":  " +rs.getString( "stock_number") + " | " + rs.getInt("warranty") + " | " + rs.getDouble("price") + " | " + rs.getString("category") + " | " + rs.getString("manufacturer") + " | " + rs.getString("model_number"));
+				searchResult.add(rs.getString("stock_number"));
+				searchPrices.add(rs.getDouble("price"));
+				nn++;
+			}
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+	public void searchAccessory(String stockNumber)
+	{
+		ResultSet rs = customerController.getAccessorySearch(stockNumber);
+		searchResult.clear();
+		searchPrices.clear();
+		try
+		{
+			int nn = 1;
+			System.out.println("search result:");
+			while(rs.next())
+			{
+				System.out.println(nn + ":  " +rs.getString( "parent_stock_number") + " | " + rs.getInt("warranty") + " | " + rs.getDouble("price") + " | " + rs.getString("category") + " | " + rs.getString("manufacturer") + " | " + rs.getString("model_number"));
+				searchResult.add(rs.getString("parent_stock_number"));
+				searchPrices.add(rs.getDouble("price"));
 				nn++;
 			}
 		} catch (SQLException e)
@@ -151,13 +265,15 @@ public class CustomerView
 		}
 	}
 	
-	public void addItemToCart(int nn)
+	public void addItemToCart(int nn, int amount)
 	{
 		if (nn > searchResult.size())
 		{
 			System.out.println("Invalid selection");
 			return;
 		}
+		
+		customerController.addToCart(searchResult.get(nn - 1), amount,searchPrices.get(nn - 1) );
 		
 	}
 	

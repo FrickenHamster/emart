@@ -89,6 +89,18 @@ public class Main
 			System.out.println("__________");
 			SaleModel.printAll();*/
 		}
+		else if(args.length > 0 && args[0].equals( "manager"))
+		{
+			ManagerView mview = new ManagerView(new ManagerController(EMART_CONNECTION));
+		}
+		else if (args.length > 0 && args[0].equals("customer"))
+		{
+			PreparedStatement stmt =
+			System.out.println("Insert Customer ID");
+			{
+				
+			}
+		}
 		else
 		{
 			tableGen = new EMartTableGenesis(EMART_CONNECTION);
