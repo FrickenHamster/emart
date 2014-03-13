@@ -66,8 +66,8 @@ public class EDepotTableGen
 					"stock_number char(7)," +
 					"amount integer not null," +
 					"primary key (ship_id, stock_number)," +
-					"foreign key (ship_id) references ShippingNotice (ship_id) on delete cascade," +
-					"foreign key (stock_number) references DepotItem (stock_number))";
+					"foreign key (ship_id) references ShippingNotice (ship_id) on delete cascade)";
+					//"foreign key (stock_number) references DepotItem (stock_number))";
 			try
 			{
 				Statement statement = connection.createStatement();
@@ -157,11 +157,14 @@ public class EDepotTableGen
 		shippingListedModel.insert("AA00602",101,3);
 		WarehouseController warehouseController = new WarehouseController(connection);
 	//	DepotItemModel.printAll();
-        System.out.println("wtf");
+       /* System.out.println("wtf");
         warehouseController.receiveShippingNotice(101);
 		
 		warehouseController.receiveShipment(101);
-		warehouseController.fillCustomerOrder(0);
+		warehouseController.fillCustomerOrder(0);*/
+        shippingNoticeModel.insert(100, "fedex");
+        shippingListedModel.insert("z",100,2);
+        warehouseController.receiveShippingNotice(100);
     //    DepotItemModel.printAll();
 	}
 	public void clearTables()

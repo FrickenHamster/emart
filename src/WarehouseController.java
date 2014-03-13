@@ -28,7 +28,7 @@ public class WarehouseController {
                     System.out.println("amount = " + rs.getInt("amount"));
                     System.out.println("new replenish = " + depotItemModel.getReplenish());
                 } else {
-                    insertStockNumber(rs.getString("stock_number"));
+                    insertStockNumber(rs.getString("stock_number"), rs.getInt("amount"));
                 }
             }
         } catch (SQLException e) 
@@ -37,20 +37,12 @@ public class WarehouseController {
         }
         System.out.println("--receiveShippingNotice END");
     }
-    public void insertStockNumber(String stockNumber)
+    public void insertStockNumber(String stockNumber, int quantity)
     {
-        try
-        {
-            PreparedStatement stmt = connection.prepareStatement("insert ");
-            stmt.setString(1, stockNumber);
-            ResultSet rs = stmt.executeQuery();
-            if(rs.next())
-                
-                     
-        }catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
+       DepotItemModel depotItemModel = new DepotItemModel(connection);
+       
+       depotItemModel.insert(stockNumber, 0, 10, 2, quantity, "unknown","unknown" , "unknown");
+        depotItemModel.printAll();
     }
     public void receiveShipment(int shipid) {
         try {
