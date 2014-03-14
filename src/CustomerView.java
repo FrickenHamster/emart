@@ -270,6 +270,7 @@ public class CustomerView
 		{
 			int nn = 1;
 			System.out.println("search result:");
+			
 			while(rs.next())
 			{
 				System.out.println(nn + ":  " +rs.getString( "parent_stock_number") + " | " + rs.getInt("warranty") + " | " + rs.getDouble("price") + " | " + rs.getString("category") + " | " + rs.getString("manufacturer") + " | " + rs.getString("model_number"));

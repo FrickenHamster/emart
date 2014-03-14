@@ -123,7 +123,7 @@ public class CustomerController
 	{
 		try
 		{
-			PreparedStatement stmt = connection.prepareStatement("select parent_stock_number from martitem i " +
+			PreparedStatement stmt = connection.prepareStatement("select * from martitem i " +
 					"join accessory a on i.stock_number = a.child_stock_number " +
 					"where trim(i.stock_number) = trim(?) ");
 			stmt.setString(1, stockNumber);

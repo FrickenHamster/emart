@@ -20,7 +20,8 @@ public class ManagerView
 		System.out.println("2:Change Status");
 		System.out.println("3:Make Replenishment Order");
 		System.out.println("4:Delete Unneeded Sales");
-		System.out.println("5:Exit");
+		System.out.println("5:Change Price");
+		System.out.println("6:Exit");
 		int input = scanner.nextInt();
 		switch (input)
 		{
@@ -41,6 +42,12 @@ public class ManagerView
 				controller.deleteNotNeededSale();
 				break;
 			case 5:
+				System.out.println("Which product price to change?");
+				String cc = scanner.next();
+				System.out.println("Which price to change to?");
+				double ss = scanner.nextDouble();
+				controller.changePrice(cc, ss);
+			case 6:
 				try
 				{
 					Main.EMART_CONNECTION.close();
